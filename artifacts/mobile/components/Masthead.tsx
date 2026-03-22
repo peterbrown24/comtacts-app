@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "@/constants/colors";
 
+const ROYAL_BLUE = "#4169E1";
+
 export function Masthead() {
   return (
     <View style={styles.container}>
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 8,
-    backgroundColor: "#2952CC",
+    backgroundColor: ROYAL_BLUE,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   wordmarkAt: {
-    color: "#2952CC",
+    color: ROYAL_BLUE,
     fontFamily: "Inter_700Bold",
     fontSize: 18,
   },
