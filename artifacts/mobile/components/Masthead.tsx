@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   atSymbol: {
-    color: "#FFB800",
+    color: "#C0C8D8",
     fontFamily: "Inter_700Bold",
     fontSize: 15,
     lineHeight: 18,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   wordmarkAt: {
-    color: "#FFB800",
+    color: "#C0C8D8",
     fontFamily: "Inter_700Bold",
     fontSize: 18,
   },
