@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   wordmarkAt: {
-    color: Colors.accent,
+    color: "#2952CC",
     fontFamily: "Inter_700Bold",
     fontSize: 18,
   },
