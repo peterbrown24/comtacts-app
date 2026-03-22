@@ -7,6 +7,7 @@ import { Feather, Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Platform, StyleSheet, View, useColorScheme } from "react-native";
 import { Colors } from "@/constants/colors";
+import { Masthead } from "@/components/Masthead";
 
 function NativeTabLayout() {
   return (
@@ -44,6 +45,7 @@ function ClassicTabLayout() {
         headerStyle: { backgroundColor: Colors.bgSecondary },
         headerTintColor: Colors.text,
         headerTitleStyle: { fontFamily: "Inter_600SemiBold", color: Colors.text },
+        headerTitle: () => <Masthead />,
         tabBarStyle: {
           position: "absolute",
           backgroundColor: isIOS ? "transparent" : Colors.tabBar,
