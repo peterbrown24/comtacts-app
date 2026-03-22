@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   wordmarkAt: {
-    color: ROYAL_BLUE,
+    color: "#FFB800",
     fontFamily: "Inter_700Bold",
     fontSize: 18,
   },
