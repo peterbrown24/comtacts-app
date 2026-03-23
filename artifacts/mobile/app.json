@@ -1,22 +1,27 @@
 {
   "expo": {
     "name": "Comt@cts, Inc.",
-    "slug": "mobile",
+    "slug": "comtacts-inc",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "mobile",
-    "userInterfaceStyle": "automatic",
+    "scheme": "comtacts",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#0D1117"
     },
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "bundleIdentifier": "com.comtacts.inc",
+      "buildNumber": "1"
     },
-    "android": {},
+    "android": {
+      "package": "com.comtacts.inc",
+      "versionCode": 1
+    },
     "web": {
       "favicon": "./assets/images/icon.png"
     },

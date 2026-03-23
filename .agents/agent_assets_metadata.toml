@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "-ybUa-l8QOh8kVSMlZjMl"
+uri = "file://artifacts/mobile/assets/images/icon.png"
+type = "image"
+title = "Comt@cts, Inc. — App Icon"
