@@ -293,6 +293,10 @@ components:
           type: string
         title:
           type: string
+        mobilePhone:
+          type: string
+        personalEmail:
+          type: string
         avatarInitials:
           type: string
         status:

@@ -20,6 +20,8 @@ export const contactsTable = pgTable("contacts", {
   phone: text("phone"),
   company: text("company"),
   title: text("title"),
+  mobilePhone: text("mobile_phone"),
+  personalEmail: text("personal_email"),
   avatarInitials: text("avatar_initials").notNull(),
   status: statusEnum("status").notNull().default("offline"),
   createdAt: timestamp("created_at").notNull().defaultNow(),

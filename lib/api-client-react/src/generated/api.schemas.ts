@@ -32,6 +32,8 @@ export interface Contact {
   phone?: string;
   company?: string;
   title?: string;
+  mobilePhone?: string;
+  personalEmail?: string;
   avatarInitials: string;
   status: ContactStatus;
 }

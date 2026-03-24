@@ -8,15 +8,22 @@ const router: IRouter = Router();
 router.get("/contacts", async (req, res) => {
   const contacts = await db.select().from(contactsTable).orderBy(contactsTable.name);
   res.json(contacts.map(c => ({
-    ...c,
+    id: c.id,
+    name: c.name,
+    email: c.email,
     phone: c.phone ?? undefined,
     company: c.company ?? undefined,
     title: c.title ?? undefined,
+    mobilePhone: c.mobilePhone ?? undefined,
+    personalEmail: c.personalEmail ?? undefined,
+    avatarInitials: c.avatarInitials,
+    status: c.status,
+    createdAt: c.createdAt,
   })));
 });
 
 router.post("/contacts", async (req, res) => {
-  const { name, email, phone, company, title } = req.body;
+  const { name, email, phone, company, title, mobilePhone, personalEmail } = req.body;
   if (!name || !email) {
     res.status(400).json({ error: "name and email are required" });
     return;
@@ -27,14 +34,21 @@ router.post("/contacts", async (req, res) => {
     phone: phone || null,
     company: company || null,
     title: title || null,
+    mobilePhone: mobilePhone || null,
+    personalEmail: personalEmail || null,
     avatarInitials: initials,
     status: "offline",
   }).returning();
   res.status(201).json({
-    ...contact,
+    id: contact.id,
+    name: contact.name,
+    email: contact.email,
     phone: contact.phone ?? undefined,
     company: contact.company ?? undefined,
     title: contact.title ?? undefined,
+    avatarInitials: contact.avatarInitials,
+    status: contact.status,
+    createdAt: contact.createdAt,
   });
 });
 

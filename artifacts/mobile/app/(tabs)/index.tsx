@@ -11,13 +11,19 @@ import {
   Platform,
   ActivityIndicator,
   Alert,
+  ScrollView,
 } from "react-native";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getContacts, createContact, deleteContact, createConversation } from "@workspace/api-client-react";
+import type { Contact } from "@workspace/api-client-react";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/colors";
+import { useSubscription } from "@/lib/revenuecat";
+import { PaywallModal } from "@/components/PaywallModal";
+
+const ROYAL_BLUE = "#4169E1";
 
 function StatusDot({ status }: { status: string }) {
   const color = status === "online" ? Colors.online : status === "away" ? Colors.away : Colors.offline;
@@ -32,12 +38,167 @@ function Avatar({ initials, size = 44 }: { initials: string; size?: number }) {
   );
 }
 
+function PremiumField({
+  icon,
+  label,
+  value,
+  isSubscribed,
+  onUpgrade,
+}: {
+  icon: string;
+  label: string;
+  value?: string;
+  isSubscribed: boolean;
+  onUpgrade: () => void;
+}) {
+  if (isSubscribed && value) {
+    return (
+      <View style={styles.detailRow}>
+        <Feather name={icon as any} size={14} color={ROYAL_BLUE} style={styles.detailIcon} />
+        <View>
+          <Text style={styles.detailLabel}>{label}</Text>
+          <Text style={styles.detailValue}>{value}</Text>
+        </View>
+      </View>
+    );
+  }
+
+  if (!isSubscribed) {
+    return (
+      <TouchableOpacity style={styles.detailRowLocked} onPress={onUpgrade} activeOpacity={0.7}>
+        <Feather name="lock" size={14} color={ROYAL_BLUE} style={styles.detailIcon} />
+        <View style={{ flex: 1 }}>
+          <Text style={styles.detailLabel}>{label}</Text>
+          <Text style={styles.detailValueLocked}>Upgrade to Premium</Text>
+        </View>
+        <View style={styles.premiumBadge}>
+          <Text style={styles.premiumBadgeText}>PRO</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
+  return null;
+}
+
+function ContactDetailModal({
+  contact,
+  visible,
+  onClose,
+  onMessage,
+  onDelete,
+  onUpgrade,
+  isSubscribed,
+}: {
+  contact: Contact | null;
+  visible: boolean;
+  onClose: () => void;
+  onMessage: (id: number) => void;
+  onDelete: (id: number, name: string) => void;
+  onUpgrade: () => void;
+  isSubscribed: boolean;
+}) {
+  if (!contact) return null;
+  const hasPremiumInfo = !!(contact.mobilePhone || contact.personalEmail);
+
+  return (
+    <Modal visible={visible} animationType="slide" presentationStyle="pageSheet" onRequestClose={onClose}>
+      <View style={styles.detailModal}>
+        <View style={styles.detailHeader}>
+          <TouchableOpacity onPress={onClose}>
+            <Feather name="x" size={22} color={Colors.textSecondary} />
+          </TouchableOpacity>
+        </View>
+
+        <ScrollView contentContainerStyle={styles.detailContent}>
+          <View style={styles.detailAvatarWrap}>
+            <Avatar initials={contact.avatarInitials} size={72} />
+            <StatusDot status={contact.status} />
+          </View>
+          <Text style={styles.detailName}>{contact.name}</Text>
+          {contact.title ? (
+            <Text style={styles.detailTitle}>
+              {contact.title}{contact.company ? ` · ${contact.company}` : ""}
+            </Text>
+          ) : contact.company ? (
+            <Text style={styles.detailTitle}>{contact.company}</Text>
+          ) : null}
+
+          <View style={styles.detailActions}>
+            <TouchableOpacity style={styles.detailActionBtn} onPress={() => { onClose(); onMessage(contact.id); }}>
+              <Ionicons name="chatbubble" size={20} color="#fff" />
+              <Text style={styles.detailActionText}>Message</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.detailActionBtn, styles.detailActionBtnGhost]}
+              onPress={() => { onClose(); onDelete(contact.id, contact.name); }}
+            >
+              <Feather name="trash-2" size={18} color={Colors.textDim} />
+              <Text style={[styles.detailActionText, { color: Colors.textDim }]}>Remove</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.detailSection}>
+            <Text style={styles.detailSectionTitle}>PUBLIC CONTACT INFO</Text>
+            <View style={styles.detailRow}>
+              <Feather name="mail" size={14} color={Colors.accent} style={styles.detailIcon} />
+              <View>
+                <Text style={styles.detailLabel}>Work Email</Text>
+                <Text style={styles.detailValue}>{contact.email}</Text>
+              </View>
+            </View>
+            {contact.phone ? (
+              <View style={styles.detailRow}>
+                <Feather name="phone" size={14} color={Colors.accent} style={styles.detailIcon} />
+                <View>
+                  <Text style={styles.detailLabel}>Work Phone</Text>
+                  <Text style={styles.detailValue}>{contact.phone}</Text>
+                </View>
+              </View>
+            ) : null}
+          </View>
+
+          {hasPremiumInfo && (
+            <View style={styles.detailSection}>
+              <View style={styles.premiumSectionHeader}>
+                <Text style={styles.detailSectionTitle}>PREMIUM CONTACT INFO</Text>
+                {!isSubscribed && (
+                  <View style={styles.premiumBadge}>
+                    <Text style={styles.premiumBadgeText}>PRO</Text>
+                  </View>
+                )}
+              </View>
+              <PremiumField
+                icon="smartphone"
+                label="Mobile Direct"
+                value={contact.mobilePhone}
+                isSubscribed={isSubscribed}
+                onUpgrade={onUpgrade}
+              />
+              <PremiumField
+                icon="mail"
+                label="Personal Email"
+                value={contact.personalEmail}
+                isSubscribed={isSubscribed}
+                onUpgrade={onUpgrade}
+              />
+            </View>
+          )}
+        </ScrollView>
+      </View>
+    </Modal>
+  );
+}
+
 export default function ContactsScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const qc = useQueryClient();
+  const { isSubscribed } = useSubscription();
   const [search, setSearch] = useState("");
   const [showAdd, setShowAdd] = useState(false);
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const [showPaywall, setShowPaywall] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -116,14 +277,20 @@ export default function ContactsScreen() {
           keyExtractor={item => item.id.toString()}
           contentInsetAdjustmentBehavior="automatic"
           renderItem={({ item }) => (
-            <View style={styles.card}>
+            <TouchableOpacity style={styles.card} onPress={() => setSelectedContact(item)} activeOpacity={0.7}>
               <View style={styles.avatarWrap}>
                 <Avatar initials={item.avatarInitials} />
                 <StatusDot status={item.status} />
               </View>
               <View style={styles.cardInfo}>
                 <Text style={styles.cardName}>{item.name}</Text>
-                {item.title ? <Text style={styles.cardSub}>{item.title}{item.company ? ` · ${item.company}` : ""}</Text> : null}
+                {item.title ? (
+                  <Text style={styles.cardSub}>
+                    {item.title}{item.company ? ` · ${item.company}` : ""}
+                  </Text>
+                ) : item.company ? (
+                  <Text style={styles.cardSub}>{item.company}</Text>
+                ) : null}
                 <Text style={styles.cardEmail}>{item.email}</Text>
               </View>
               <View style={styles.cardActions}>
@@ -140,11 +307,23 @@ export default function ContactsScreen() {
                   <Feather name="trash-2" size={18} color={Colors.textDim} />
                 </TouchableOpacity>
               </View>
-            </View>
+            </TouchableOpacity>
           )}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
         />
       )}
+
+      <ContactDetailModal
+        contact={selectedContact}
+        visible={!!selectedContact}
+        onClose={() => setSelectedContact(null)}
+        onMessage={(id) => messageMutation.mutate(id)}
+        onDelete={handleDelete}
+        onUpgrade={() => { setSelectedContact(null); setShowPaywall(true); }}
+        isSubscribed={isSubscribed}
+      />
+
+      <PaywallModal visible={showPaywall} onClose={() => setShowPaywall(false)} />
 
       <Modal visible={showAdd} animationType="slide" presentationStyle="pageSheet">
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
@@ -223,4 +402,25 @@ const styles = StyleSheet.create({
   saveBtn: { marginHorizontal: 20, marginTop: 8, backgroundColor: Colors.accent, borderRadius: 12, paddingVertical: 16, alignItems: "center" },
   saveBtnDisabled: { opacity: 0.5 },
   saveBtnText: { color: "#000", fontFamily: "Inter_700Bold", fontSize: 16 },
+  detailModal: { flex: 1, backgroundColor: Colors.bg },
+  detailHeader: { flexDirection: "row", justifyContent: "flex-end", paddingHorizontal: 20, paddingTop: 20, paddingBottom: 12 },
+  detailContent: { paddingHorizontal: 24, paddingBottom: 40, alignItems: "center" },
+  detailAvatarWrap: { position: "relative", marginBottom: 16 },
+  detailName: { color: Colors.text, fontFamily: "Inter_700Bold", fontSize: 24, marginBottom: 6, textAlign: "center" },
+  detailTitle: { color: Colors.textSecondary, fontFamily: "Inter_400Regular", fontSize: 15, marginBottom: 24, textAlign: "center" },
+  detailActions: { flexDirection: "row", gap: 12, marginBottom: 32 },
+  detailActionBtn: { flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: Colors.accent, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 20 },
+  detailActionBtnGhost: { backgroundColor: Colors.bgCard },
+  detailActionText: { color: "#000", fontFamily: "Inter_600SemiBold", fontSize: 14 },
+  detailSection: { width: "100%", backgroundColor: Colors.bgCard, borderRadius: 14, padding: 16, marginBottom: 16, gap: 14 },
+  detailSectionTitle: { color: Colors.textDim, fontFamily: "Inter_600SemiBold", fontSize: 11, letterSpacing: 1.2, marginBottom: 4 },
+  detailRow: { flexDirection: "row", alignItems: "flex-start", gap: 12 },
+  detailRowLocked: { flexDirection: "row", alignItems: "center", gap: 12 },
+  detailIcon: { marginTop: 2 },
+  detailLabel: { color: Colors.textSecondary, fontFamily: "Inter_400Regular", fontSize: 12, marginBottom: 2 },
+  detailValue: { color: Colors.text, fontFamily: "Inter_500Medium", fontSize: 14 },
+  detailValueLocked: { color: ROYAL_BLUE, fontFamily: "Inter_500Medium", fontSize: 14 },
+  premiumSectionHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 4 },
+  premiumBadge: { backgroundColor: ROYAL_BLUE + "22", borderRadius: 6, paddingHorizontal: 7, paddingVertical: 3 },
+  premiumBadgeText: { color: ROYAL_BLUE, fontFamily: "Inter_700Bold", fontSize: 10, letterSpacing: 1 },
 });
