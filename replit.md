@@ -106,17 +106,21 @@ Expo React Native app — "Comt@cts, Inc."
 - Freemium model: RevenueCat subscription gates premium contact fields (mobilePhone, personalEmail)
 - Masthead component: `components/Masthead.tsx`
 
-### RevenueCat Setup (PENDING)
+### RevenueCat Setup (COMPLETE)
 
-The freemium subscription model is built but RevenueCat is not yet connected. To complete setup:
+The freemium subscription model is fully live. RevenueCat is connected and all API keys are stored as environment variables.
 
-1. Connect the RevenueCat integration (requires Core plan or above)
-2. After connecting, run: `pnpm --filter @workspace/scripts exec tsx src/seedRevenueCat.ts`
-3. Store the output API keys as environment variables:
-   - `EXPO_PUBLIC_REVENUECAT_TEST_API_KEY`
-   - `EXPO_PUBLIC_REVENUECAT_IOS_API_KEY`
-   - `EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY`
-   - `REVENUECAT_PROJECT_ID`
-   - `REVENUECAT_TEST_STORE_APP_ID`
+- Project: `projfa8d0353`
+- Entitlement: `premium`
+- Product: `premium_monthly` — $9.99/month (test store)
+- Offering: `default`
+- Seed script: `pnpm --filter @workspace/scripts exec tsx src/seedRevenueCat.ts` (idempotent, safe to re-run)
 
-Until the keys are set, the app runs normally — subscription features are gracefully disabled and the paywall shows a "coming soon" state.
+Environment variables set (shared):
+- `EXPO_PUBLIC_REVENUECAT_TEST_API_KEY`
+- `EXPO_PUBLIC_REVENUECAT_IOS_API_KEY`
+- `EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY`
+- `REVENUECAT_PROJECT_ID`
+- `REVENUECAT_TEST_STORE_APP_ID`
+- `REVENUECAT_APPLE_APP_STORE_APP_ID`
+- `REVENUECAT_GOOGLE_PLAY_STORE_APP_ID`
