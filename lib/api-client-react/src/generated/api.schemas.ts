@@ -28,6 +28,7 @@ export const ContactStatus = {
 export interface Contact {
   id: number;
   name: string;
+  handle?: string;
   email: string;
   phone?: string;
   company?: string;

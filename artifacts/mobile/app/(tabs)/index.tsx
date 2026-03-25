@@ -116,6 +116,9 @@ function ContactDetailModal({
             <StatusDot status={contact.status} />
           </View>
           <Text style={styles.detailName}>{contact.name}</Text>
+          {contact.handle ? (
+            <Text style={styles.detailHandle}>{contact.handle}</Text>
+          ) : null}
           {contact.title ? (
             <Text style={styles.detailTitle}>
               {contact.title}{contact.company ? ` · ${contact.company}` : ""}
@@ -283,7 +286,12 @@ export default function ContactsScreen() {
                 <StatusDot status={item.status} />
               </View>
               <View style={styles.cardInfo}>
-                <Text style={styles.cardName}>{item.name}</Text>
+                <View style={styles.cardNameRow}>
+                  <Text style={styles.cardName}>{item.name}</Text>
+                  {item.handle ? (
+                    <Text style={styles.cardHandle}>{item.handle}</Text>
+                  ) : null}
+                </View>
                 {item.title ? (
                   <Text style={styles.cardSub}>
                     {item.title}{item.company ? ` · ${item.company}` : ""}
@@ -384,7 +392,9 @@ const styles = StyleSheet.create({
   avatarText: { color: Colors.accent, fontFamily: "Inter_700Bold" },
   statusDot: { position: "absolute", bottom: 1, right: 1, width: 10, height: 10, borderRadius: 5, borderWidth: 2, borderColor: Colors.bg },
   cardInfo: { flex: 1 },
-  cardName: { color: Colors.text, fontFamily: "Inter_600SemiBold", fontSize: 15, marginBottom: 2 },
+  cardNameRow: { flexDirection: "row", alignItems: "center", gap: 6, flexWrap: "wrap", marginBottom: 2 },
+  cardName: { color: Colors.text, fontFamily: "Inter_600SemiBold", fontSize: 15 },
+  cardHandle: { color: ROYAL_BLUE, fontFamily: "Inter_400Regular", fontSize: 12 },
   cardSub: { color: Colors.textSecondary, fontFamily: "Inter_400Regular", fontSize: 13, marginBottom: 2 },
   cardEmail: { color: Colors.textDim, fontFamily: "Inter_400Regular", fontSize: 12 },
   cardActions: { flexDirection: "row", gap: 4 },
@@ -406,7 +416,8 @@ const styles = StyleSheet.create({
   detailHeader: { flexDirection: "row", justifyContent: "flex-end", paddingHorizontal: 20, paddingTop: 20, paddingBottom: 12 },
   detailContent: { paddingHorizontal: 24, paddingBottom: 40, alignItems: "center" },
   detailAvatarWrap: { position: "relative", marginBottom: 16 },
-  detailName: { color: Colors.text, fontFamily: "Inter_700Bold", fontSize: 24, marginBottom: 6, textAlign: "center" },
+  detailName: { color: Colors.text, fontFamily: "Inter_700Bold", fontSize: 24, marginBottom: 4, textAlign: "center" },
+  detailHandle: { color: ROYAL_BLUE, fontFamily: "Inter_500Medium", fontSize: 15, marginBottom: 6, textAlign: "center" },
   detailTitle: { color: Colors.textSecondary, fontFamily: "Inter_400Regular", fontSize: 15, marginBottom: 24, textAlign: "center" },
   detailActions: { flexDirection: "row", gap: 12, marginBottom: 32 },
   detailActionBtn: { flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: Colors.accent, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 20 },

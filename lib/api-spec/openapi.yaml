@@ -285,6 +285,8 @@ components:
           type: integer
         name:
           type: string
+        handle:
+          type: string
         email:
           type: string
         phone:

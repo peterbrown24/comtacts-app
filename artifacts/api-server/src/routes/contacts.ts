@@ -10,6 +10,7 @@ router.get("/contacts", async (req, res) => {
   res.json(contacts.map(c => ({
     id: c.id,
     name: c.name,
+    handle: c.handle ?? undefined,
     email: c.email,
     phone: c.phone ?? undefined,
     company: c.company ?? undefined,
@@ -23,14 +24,16 @@ router.get("/contacts", async (req, res) => {
 });
 
 router.post("/contacts", async (req, res) => {
-  const { name, email, phone, company, title, mobilePhone, personalEmail } = req.body;
+  const { name, email, phone, company, title, mobilePhone, personalEmail, handle } = req.body;
   if (!name || !email) {
     res.status(400).json({ error: "name and email are required" });
     return;
   }
   const initials = name.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2);
   const [contact] = await db.insert(contactsTable).values({
-    name, email,
+    name,
+    handle: handle || null,
+    email,
     phone: phone || null,
     company: company || null,
     title: title || null,
@@ -42,6 +45,7 @@ router.post("/contacts", async (req, res) => {
   res.status(201).json({
     id: contact.id,
     name: contact.name,
+    handle: contact.handle ?? undefined,
     email: contact.email,
     phone: contact.phone ?? undefined,
     company: contact.company ?? undefined,
