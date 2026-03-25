@@ -10,29 +10,29 @@ const REVENUECAT_ANDROID_API_KEY = process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_AP
 
 export const REVENUECAT_ENTITLEMENT_IDENTIFIER = "premium";
 
-function getRevenueCatApiKey() {
-  if (!REVENUECAT_TEST_API_KEY || !REVENUECAT_IOS_API_KEY || !REVENUECAT_ANDROID_API_KEY) {
-    throw new Error("RevenueCat Public API Keys not found");
-  }
+export const REVENUECAT_CONFIGURED = !!(
+  REVENUECAT_TEST_API_KEY &&
+  REVENUECAT_IOS_API_KEY &&
+  REVENUECAT_ANDROID_API_KEY
+);
+
+function getRevenueCatApiKey(): string | null {
+  if (!REVENUECAT_CONFIGURED) return null;
 
   if (__DEV__ || Platform.OS === "web" || Constants.executionEnvironment === "storeClient") {
-    return REVENUECAT_TEST_API_KEY;
+    return REVENUECAT_TEST_API_KEY!;
   }
-
-  if (Platform.OS === "ios") {
-    return REVENUECAT_IOS_API_KEY;
-  }
-
-  if (Platform.OS === "android") {
-    return REVENUECAT_ANDROID_API_KEY;
-  }
-
-  return REVENUECAT_TEST_API_KEY;
+  if (Platform.OS === "ios") return REVENUECAT_IOS_API_KEY!;
+  if (Platform.OS === "android") return REVENUECAT_ANDROID_API_KEY!;
+  return REVENUECAT_TEST_API_KEY!;
 }
 
 export function initializeRevenueCat() {
   const apiKey = getRevenueCatApiKey();
-  if (!apiKey) throw new Error("RevenueCat Public API Key not found");
+  if (!apiKey) {
+    console.warn("RevenueCat not configured — subscription features disabled");
+    return;
+  }
   Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG);
   Purchases.configure({ apiKey });
   console.log("Configured RevenueCat");
@@ -42,6 +42,7 @@ function useSubscriptionContext() {
   const customerInfoQuery = useQuery({
     queryKey: ["revenuecat", "customer-info"],
     queryFn: async () => {
+      if (!REVENUECAT_CONFIGURED) return null;
       const info = await Purchases.getCustomerInfo();
       return info;
     },
@@ -51,6 +52,7 @@ function useSubscriptionContext() {
   const offeringsQuery = useQuery({
     queryKey: ["revenuecat", "offerings"],
     queryFn: async () => {
+      if (!REVENUECAT_CONFIGURED) return null;
       const offerings = await Purchases.getOfferings();
       return offerings;
     },
@@ -59,6 +61,7 @@ function useSubscriptionContext() {
 
   const purchaseMutation = useMutation({
     mutationFn: async (packageToPurchase: any) => {
+      if (!REVENUECAT_CONFIGURED) throw new Error("Subscription not available yet");
       const { customerInfo } = await Purchases.purchasePackage(packageToPurchase);
       return customerInfo;
     },
@@ -67,17 +70,19 @@ function useSubscriptionContext() {
 
   const restoreMutation = useMutation({
     mutationFn: async () => {
+      if (!REVENUECAT_CONFIGURED) throw new Error("Subscription not available yet");
       return Purchases.restorePurchases();
     },
     onSuccess: () => customerInfoQuery.refetch(),
   });
 
   const isSubscribed =
+    REVENUECAT_CONFIGURED &&
     customerInfoQuery.data?.entitlements.active?.[REVENUECAT_ENTITLEMENT_IDENTIFIER] !== undefined;
 
   return {
-    customerInfo: customerInfoQuery.data,
-    offerings: offeringsQuery.data,
+    customerInfo: customerInfoQuery.data ?? undefined,
+    offerings: offeringsQuery.data ?? undefined,
     isSubscribed,
     isLoading: customerInfoQuery.isLoading || offeringsQuery.isLoading,
     purchase: purchaseMutation.mutateAsync,

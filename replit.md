@@ -94,3 +94,29 @@ Generated React Query hooks and fetch client from the OpenAPI spec (e.g. `useHea
 ### `scripts` (`@workspace/scripts`)
 
 Utility scripts package. Each script is a `.ts` file in `src/` with a corresponding npm script in `package.json`. Run scripts via `pnpm --filter @workspace/scripts run <script>`. Scripts can import any workspace package (e.g., `@workspace/db`) by adding it as a dependency in `scripts/package.json`.
+
+## Mobile App (`artifacts/mobile`)
+
+Expo React Native app — "Comt@cts, Inc."
+
+- Tabs: Contacts, Messages, Channels, Profile
+- Real-time polling: contacts 5s, conversations 3s, messages 2s, channels 4s
+- Demo user: Alex Johnson (no auth)
+- Theme: dark bg `#0D1117`, teal accent `#00C896`, royal blue `#4169E1`, Inter font
+- Freemium model: RevenueCat subscription gates premium contact fields (mobilePhone, personalEmail)
+- Masthead component: `components/Masthead.tsx`
+
+### RevenueCat Setup (PENDING)
+
+The freemium subscription model is built but RevenueCat is not yet connected. To complete setup:
+
+1. Connect the RevenueCat integration (requires Core plan or above)
+2. After connecting, run: `pnpm --filter @workspace/scripts exec tsx src/seedRevenueCat.ts`
+3. Store the output API keys as environment variables:
+   - `EXPO_PUBLIC_REVENUECAT_TEST_API_KEY`
+   - `EXPO_PUBLIC_REVENUECAT_IOS_API_KEY`
+   - `EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY`
+   - `REVENUECAT_PROJECT_ID`
+   - `REVENUECAT_TEST_STORE_APP_ID`
+
+Until the keys are set, the app runs normally — subscription features are gracefully disabled and the paywall shows a "coming soon" state.
