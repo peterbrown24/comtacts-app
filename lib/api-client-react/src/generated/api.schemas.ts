@@ -12,9 +12,15 @@ export interface HealthStatus {
 export interface User {
   id: number;
   name: string;
+  handle?: string;
   email: string;
+  phone?: string;
+  company?: string;
+  title?: string;
+  mobilePhone?: string;
+  personalEmail?: string;
   avatarInitials: string;
-  title: string;
+  status: string;
 }
 
 export type ContactStatus = (typeof ContactStatus)[keyof typeof ContactStatus];
