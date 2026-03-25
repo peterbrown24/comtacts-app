@@ -11,6 +11,7 @@ router.get("/contacts", async (req, res) => {
     id: c.id,
     name: c.name,
     handle: c.handle ?? undefined,
+    contactType: c.contactType ?? undefined,
     email: c.email,
     phone: c.phone ?? undefined,
     company: c.company ?? undefined,
@@ -24,7 +25,7 @@ router.get("/contacts", async (req, res) => {
 });
 
 router.post("/contacts", async (req, res) => {
-  const { name, email, phone, company, title, mobilePhone, personalEmail, handle } = req.body;
+  const { name, email, phone, company, title, mobilePhone, personalEmail, handle, contactType } = req.body;
   if (!name || !email) {
     res.status(400).json({ error: "name and email are required" });
     return;
@@ -33,6 +34,7 @@ router.post("/contacts", async (req, res) => {
   const [contact] = await db.insert(contactsTable).values({
     name,
     handle: handle || null,
+    contactType: contactType || null,
     email,
     phone: phone || null,
     company: company || null,
@@ -46,6 +48,7 @@ router.post("/contacts", async (req, res) => {
     id: contact.id,
     name: contact.name,
     handle: contact.handle ?? undefined,
+    contactType: contact.contactType ?? undefined,
     email: contact.email,
     phone: contact.phone ?? undefined,
     company: contact.company ?? undefined,

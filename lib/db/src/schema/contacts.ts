@@ -3,6 +3,7 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
 export const statusEnum = pgEnum("status", ["online", "away", "offline"]);
+export const contactTypeEnum = pgEnum("contact_type", ["vendor", "merchant"]);
 
 export const usersTable = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -17,6 +18,7 @@ export const contactsTable = pgTable("contacts", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   handle: text("handle"),
+  contactType: contactTypeEnum("contact_type"),
   email: text("email").notNull(),
   phone: text("phone"),
   company: text("company"),

@@ -24,6 +24,20 @@ import { useSubscription } from "@/lib/revenuecat";
 import { PaywallModal } from "@/components/PaywallModal";
 
 const ROYAL_BLUE = "#4169E1";
+const TYPE_COLORS = {
+  vendor:   { bg: "#2D1F00", text: "#F59E0B", label: "V" },
+  merchant: { bg: "#1E1040", text: "#A78BFA", label: "M" },
+};
+
+function TypeBadge({ type }: { type?: string }) {
+  if (!type || !(type in TYPE_COLORS)) return null;
+  const scheme = TYPE_COLORS[type as keyof typeof TYPE_COLORS];
+  return (
+    <View style={[styles.typeBadge, { backgroundColor: scheme.bg }]}>
+      <Text style={[styles.typeBadgeText, { color: scheme.text }]}>{scheme.label}</Text>
+    </View>
+  );
+}
 
 function StatusDot({ status }: { status: string }) {
   const color = status === "online" ? Colors.online : status === "away" ? Colors.away : Colors.offline;
@@ -115,7 +129,10 @@ function ContactDetailModal({
             <Avatar initials={contact.avatarInitials} size={72} />
             <StatusDot status={contact.status} />
           </View>
-          <Text style={styles.detailName}>{contact.name}</Text>
+          <View style={styles.detailNameRow}>
+            <Text style={styles.detailName}>{contact.name}</Text>
+            <TypeBadge type={contact.contactType} />
+          </View>
           {contact.handle ? (
             <Text style={styles.detailHandle}>{contact.handle}</Text>
           ) : null}
@@ -207,6 +224,7 @@ export default function ContactsScreen() {
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
   const [title, setTitle] = useState("");
+  const [contactType, setContactType] = useState<"vendor" | "merchant" | undefined>(undefined);
 
   const { data: contacts = [], isLoading } = useQuery({
     queryKey: ["contacts"],
@@ -219,7 +237,7 @@ export default function ContactsScreen() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["contacts"] });
       setShowAdd(false);
-      setName(""); setEmail(""); setPhone(""); setCompany(""); setTitle("");
+      setName(""); setEmail(""); setPhone(""); setCompany(""); setTitle(""); setContactType(undefined);
     },
   });
 
@@ -291,6 +309,7 @@ export default function ContactsScreen() {
                   {item.handle ? (
                     <Text style={styles.cardHandle}>{item.handle}</Text>
                   ) : null}
+                  <TypeBadge type={item.contactType} />
                 </View>
                 {item.title ? (
                   <Text style={styles.cardSub}>
@@ -338,7 +357,7 @@ export default function ContactsScreen() {
           <View style={styles.modal}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>New Contact</Text>
-              <TouchableOpacity onPress={() => { setShowAdd(false); setName(""); setEmail(""); setPhone(""); setCompany(""); setTitle(""); }}>
+              <TouchableOpacity onPress={() => { setShowAdd(false); setName(""); setEmail(""); setPhone(""); setCompany(""); setTitle(""); setContactType(undefined); }}>
                 <Feather name="x" size={24} color={Colors.text} />
               </TouchableOpacity>
             </View>
@@ -362,10 +381,37 @@ export default function ContactsScreen() {
                 />
               </View>
             ))}
+            <View style={styles.field}>
+              <Text style={styles.fieldLabel}>Contact Type</Text>
+              <View style={styles.typeSelector}>
+                {([
+                  { value: undefined, label: "None" },
+                  { value: "vendor" as const, label: "V  Vendor" },
+                  { value: "merchant" as const, label: "M  Merchant" },
+                ] as const).map(opt => {
+                  const isActive = contactType === opt.value;
+                  const scheme = opt.value ? TYPE_COLORS[opt.value] : null;
+                  return (
+                    <TouchableOpacity
+                      key={String(opt.value)}
+                      style={[
+                        styles.typeOption,
+                        isActive && { backgroundColor: scheme ? scheme.bg : "#1E2330", borderColor: scheme ? scheme.text : Colors.accent },
+                      ]}
+                      onPress={() => setContactType(opt.value)}
+                    >
+                      <Text style={[styles.typeOptionText, isActive && { color: scheme ? scheme.text : Colors.accent }]}>
+                        {opt.label}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </View>
             <TouchableOpacity
               style={[styles.saveBtn, (!name || !email) && styles.saveBtnDisabled]}
               disabled={!name || !email || createMutation.isPending}
-              onPress={() => createMutation.mutate({ body: { name, email, phone: phone || undefined, company: company || undefined, title: title || undefined } })}
+              onPress={() => createMutation.mutate({ body: { name, email, phone: phone || undefined, company: company || undefined, title: title || undefined, contactType: contactType || undefined } })}
             >
               {createMutation.isPending
                 ? <ActivityIndicator color="#000" />
@@ -434,4 +480,10 @@ const styles = StyleSheet.create({
   premiumSectionHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 4 },
   premiumBadge: { backgroundColor: ROYAL_BLUE + "22", borderRadius: 6, paddingHorizontal: 7, paddingVertical: 3 },
   premiumBadgeText: { color: ROYAL_BLUE, fontFamily: "Inter_700Bold", fontSize: 10, letterSpacing: 1 },
+  typeBadge: { borderRadius: 5, paddingHorizontal: 6, paddingVertical: 2 },
+  typeBadgeText: { fontFamily: "Inter_700Bold", fontSize: 11, letterSpacing: 0.5 },
+  detailNameRow: { flexDirection: "row", alignItems: "center", gap: 8, justifyContent: "center", marginBottom: 4 },
+  typeSelector: { flexDirection: "row", gap: 8 },
+  typeOption: { flex: 1, borderRadius: 10, paddingVertical: 10, alignItems: "center", backgroundColor: Colors.bgCard, borderWidth: 1, borderColor: Colors.border },
+  typeOptionText: { color: Colors.textSecondary, fontFamily: "Inter_600SemiBold", fontSize: 13 },
 });

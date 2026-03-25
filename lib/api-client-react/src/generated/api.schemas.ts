@@ -25,10 +25,13 @@ export const ContactStatus = {
   offline: "offline",
 } as const;
 
+export type ContactType = "vendor" | "merchant";
+
 export interface Contact {
   id: number;
   name: string;
   handle?: string;
+  contactType?: ContactType;
   email: string;
   phone?: string;
   company?: string;
@@ -45,6 +48,7 @@ export interface CreateContactInput {
   phone?: string;
   company?: string;
   title?: string;
+  contactType?: ContactType;
 }
 
 export type ConversationContactStatus =

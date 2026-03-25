@@ -287,6 +287,9 @@ components:
           type: string
         handle:
           type: string
+        contactType:
+          type: string
+          enum: [vendor, merchant]
         email:
           type: string
         phone:
