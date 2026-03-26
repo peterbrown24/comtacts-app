@@ -1,0 +1,18 @@
+packages:
+  "framer-motion": "For page transitions, scroll animations, and premium micro-interactions"
+  "@radix-ui/react-accordion": "For the FAQ section on the support page"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility function to efficiently merge Tailwind CSS classes in JS"
+
+images:
+  - path: "artifacts/website/public/images/hero-app-mockup.png"
+    description: "A sleek, professional dark-themed mobile app UI mockup on a modern smartphone screen. The UI shows a business contacts list with status dots and vendor badges. Set against a transparent background."
+    aspect_ratio: "9:16"
+  - path: "artifacts/website/public/images/abstract-glow.png"
+    description: "Abstract, deep dark background with very subtle, elegant glowing auroras of royal blue and teal. Corporate, premium, and minimalistic."
+    aspect_ratio: "16:9"
+
+notes:
+  - "This is a static marketing website. No backend API integration is required."
+  - "The primary domain will be www.comtacts.ca"
+  - "Design uses a dark mode professional aesthetic with Royal Blue (#4169E1) and Teal (#00C896) accents."
