@@ -6,3 +6,15 @@ id = "-ybUa-l8QOh8kVSMlZjMl"
 uri = "file://artifacts/mobile/assets/images/icon.png"
 type = "image"
 title = "Comt@cts, Inc. — App Icon"
+
+[[outputs]]
+id = "QC38Az7qPQwDG-qIIAULs"
+uri = "file://.local/app-store-description.md"
+type = "text"
+title = "App Store Listing Description"
+
+[[outputs]]
+id = "3b3xv0EUVOmzf11DNkPHN"
+uri = "file://.local/privacy-policy.md"
+type = "text"
+title = "Privacy Policy"
