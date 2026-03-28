@@ -36,10 +36,14 @@ export default function Home() {
                 <span className="text-sm font-medium">Now available on iOS</span>
               </div>
               
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold font-display leading-[1.1] mb-6">
-                Your Business <br />
-                <span className="text-gradient">Communication</span> Hub
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold font-display leading-[1.1] mb-4">
+                What's your <br />
+                <span className="text-gradient">Comt<span className="text-accent">@</span>ct</span>?
               </h1>
+
+              <p className="text-2xl sm:text-3xl font-display font-semibold text-white/80 mb-6">
+                Your Business Communication Hub
+              </p>
               
               <p className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed">
                 Organize your professional network, message directly, and collaborate in team channels. 
@@ -191,9 +195,9 @@ export default function Home() {
         
         <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
           <Smartphone size={48} className="mx-auto text-accent mb-6" />
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">Ready to upgrade your team's communication?</h2>
+          <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">What's your Comt<span className="text-accent">@</span>ct?</h2>
           <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Join thousands of professionals who have simplified their workflow with Comt@cts.
+            Join thousands of professionals who have simplified their workflow with Comt@cts. Your next deal, your next hire, your next big move — it all starts with one question.
           </p>
           <a 
             href="#" 
