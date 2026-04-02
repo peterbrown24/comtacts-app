@@ -6,9 +6,13 @@ import {
   Modal,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
+  ScrollView,
+  useWindowDimensions,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSubscription } from "@/lib/revenuecat";
+import { REVENUECAT_CONFIGURED } from "@/lib/revenuecat";
 import { Colors } from "@/constants/colors";
 
 const ROYAL_BLUE = "#4169E1";
@@ -19,7 +23,9 @@ interface Props {
 }
 
 export function PaywallModal({ visible, onClose }: Props) {
-  const { offerings, purchase, restore, isPurchasing, isRestoring } = useSubscription();
+  const { offerings, purchase, restore, isPurchasing, isRestoring, isLoading } = useSubscription();
+  const { width: screenWidth } = useWindowDimensions();
+  const isTablet = screenWidth >= 768;
 
   const currentOffering = offerings?.current;
   const pkg = currentOffering?.availablePackages[0];
@@ -30,7 +36,30 @@ export function PaywallModal({ visible, onClose }: Props) {
   const [showConfirm, setShowConfirm] = React.useState(false);
 
   const handlePurchase = () => {
-    if (!pkg) return;
+    if (!REVENUECAT_CONFIGURED) {
+      Alert.alert(
+        "Coming Soon",
+        "Premium subscriptions are being set up. Please try again shortly.",
+        [{ text: "OK" }]
+      );
+      return;
+    }
+    if (isLoading) {
+      Alert.alert(
+        "Loading",
+        "Subscription information is loading. Please wait a moment and try again.",
+        [{ text: "OK" }]
+      );
+      return;
+    }
+    if (!pkg) {
+      Alert.alert(
+        "Unavailable",
+        "Unable to load subscription details. Please check your connection and try again.",
+        [{ text: "OK" }]
+      );
+      return;
+    }
     setShowConfirm(true);
   };
 
@@ -63,6 +92,15 @@ export function PaywallModal({ visible, onClose }: Props) {
           <Feather name="x" size={22} color={Colors.textSecondary} />
         </TouchableOpacity>
 
+        <ScrollView
+          style={{ width: "100%" }}
+          contentContainerStyle={[
+            styles.scrollContent,
+            isTablet && { maxWidth: 500, alignSelf: "center" },
+          ]}
+          showsVerticalScrollIndicator={false}
+        >
+
         <View style={styles.badge}>
           <Text style={styles.badgeText}>PREMIUM</Text>
         </View>
@@ -94,12 +132,17 @@ export function PaywallModal({ visible, onClose }: Props) {
         </View>
 
         <TouchableOpacity
-          style={[styles.upgradeBtn, (isPurchasing || !pkg) && styles.upgradeBtnDisabled]}
+          style={[styles.upgradeBtn, isPurchasing && styles.upgradeBtnDisabled]}
           onPress={handlePurchase}
-          disabled={isPurchasing || !pkg}
+          disabled={isPurchasing}
         >
           {isPurchasing ? (
             <ActivityIndicator color="#fff" />
+          ) : isLoading ? (
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+              <ActivityIndicator color="#fff" size="small" />
+              <Text style={styles.upgradeBtnText}>Loading...</Text>
+            </View>
           ) : (
             <Text style={styles.upgradeBtnText}>Upgrade to Premium</Text>
           )}
@@ -116,6 +159,8 @@ export function PaywallModal({ visible, onClose }: Props) {
             <Text style={styles.restoreText}>Restore Purchases</Text>
           )}
         </TouchableOpacity>
+
+        </ScrollView>
 
         {showConfirm && (
           <View style={styles.confirmOverlay}>
@@ -151,6 +196,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 32,
     alignItems: "center",
+  },
+  scrollContent: {
+    alignItems: "center",
+    paddingBottom: 40,
+    width: "100%",
   },
   closeBtn: {
     alignSelf: "flex-end",

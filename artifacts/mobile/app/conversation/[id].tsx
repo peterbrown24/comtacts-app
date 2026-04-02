@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Platform,
+  useWindowDimensions,
 } from "react-native";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -16,7 +17,6 @@ import { getConversationMessages, sendConversationMessage, getConversations } fr
 import { Feather } from "@expo/vector-icons";
 import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import { Colors } from "@/constants/colors";
-import { useEffect } from "react";
 
 type Message = {
   id: number;
@@ -61,6 +61,8 @@ export default function ConversationScreen() {
   const qc = useQueryClient();
   const [text, setText] = useState("");
   const flatRef = useRef<FlatList>(null);
+  const { width: screenWidth } = useWindowDimensions();
+  const isTablet = screenWidth >= 768;
 
   const { data: convos = [] } = useQuery({
     queryKey: ["conversations"],
@@ -99,7 +101,7 @@ export default function ConversationScreen() {
     <KeyboardAvoidingView
       style={[styles.container]}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+      keyboardVerticalOffset={insets.top + 44}
     >
       {isLoading ? (
         <ActivityIndicator color={Colors.accent} style={{ flex: 1 }} />
@@ -109,7 +111,10 @@ export default function ConversationScreen() {
           data={messages}
           keyExtractor={item => item.id.toString()}
           renderItem={({ item }) => <Bubble msg={item} />}
-          contentContainerStyle={styles.messageList}
+          contentContainerStyle={[
+            styles.messageList,
+            isTablet && { paddingHorizontal: 40, maxWidth: 800, alignSelf: "center", width: "100%" },
+          ]}
           onContentSizeChange={() => flatRef.current?.scrollToEnd({ animated: false })}
           keyboardShouldPersistTaps="handled"
           ListEmptyComponent={
@@ -119,7 +124,11 @@ export default function ConversationScreen() {
           }
         />
       )}
-      <View style={[styles.inputBar, { paddingBottom: insets.bottom + 8 }]}>
+      <View style={[
+        styles.inputBar,
+        { paddingBottom: Math.max(insets.bottom, 8) + 8 },
+        isTablet && { paddingHorizontal: 40, maxWidth: 800, alignSelf: "center", width: "100%" },
+      ]}>
         <TextInput
           style={styles.input}
           value={text}
@@ -158,9 +167,9 @@ const styles = StyleSheet.create({
   theirName: { color: Colors.accent, fontFamily: "Inter_600SemiBold", fontSize: 12, marginBottom: 4 },
   theirText: { color: Colors.text, fontFamily: "Inter_400Regular", fontSize: 15 },
   timeText: { color: Colors.textDim, fontFamily: "Inter_400Regular", fontSize: 11, marginTop: 4 },
-  inputBar: { flexDirection: "row", alignItems: "flex-end", paddingHorizontal: 12, paddingTop: 8, backgroundColor: Colors.bgSecondary, borderTopWidth: 1, borderTopColor: Colors.border, gap: 10 },
+  inputBar: { flexDirection: "row", alignItems: "flex-end", paddingHorizontal: 12, paddingTop: 8, backgroundColor: Colors.bgSecondary, borderTopWidth: 1, borderTopColor: Colors.border, gap: 10, width: "100%" },
   input: { flex: 1, backgroundColor: Colors.bgCard, borderRadius: 20, paddingHorizontal: 16, paddingVertical: 10, color: Colors.text, fontFamily: "Inter_400Regular", fontSize: 15, maxHeight: 100, borderWidth: 1, borderColor: Colors.border },
-  sendBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: Colors.accent, alignItems: "center", justifyContent: "center" },
+  sendBtn: { width: 40, height: 40, minWidth: 40, minHeight: 40, borderRadius: 20, backgroundColor: Colors.accent, alignItems: "center", justifyContent: "center", flexShrink: 0, marginBottom: 2 },
   sendBtnDisabled: { opacity: 0.4 },
   emptyChat: { flex: 1, alignItems: "center", justifyContent: "center", paddingTop: 80 },
   emptyChatText: { color: Colors.textDim, fontFamily: "Inter_400Regular", fontSize: 15 },
