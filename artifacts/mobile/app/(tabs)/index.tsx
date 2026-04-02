@@ -242,12 +242,12 @@ export default function ContactsScreen() {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: number) => deleteContact({ contactId: id }),
+    mutationFn: (id: number) => deleteContact(id),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["contacts"] }),
   });
 
   const messageMutation = useMutation({
-    mutationFn: (contactId: number) => createConversation({ body: { contactId } }),
+    mutationFn: (contactId: number) => createConversation({ contactId }),
     onSuccess: (conv) => {
       qc.invalidateQueries({ queryKey: ["conversations"] });
       router.push(`/conversation/${conv.id}`);
@@ -411,7 +411,7 @@ export default function ContactsScreen() {
             <TouchableOpacity
               style={[styles.saveBtn, (!name || !email) && styles.saveBtnDisabled]}
               disabled={!name || !email || createMutation.isPending}
-              onPress={() => createMutation.mutate({ body: { name, email, phone: phone || undefined, company: company || undefined, title: title || undefined, contactType: contactType || undefined } })}
+              onPress={() => createMutation.mutate({ name, email, phone: phone || undefined, company: company || undefined, title: title || undefined, contactType: contactType || undefined })}
             >
               {createMutation.isPending
                 ? <ActivityIndicator color="#000" />

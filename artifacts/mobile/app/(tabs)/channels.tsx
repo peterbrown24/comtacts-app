@@ -143,7 +143,7 @@ export default function ChannelsScreen() {
             <TouchableOpacity
               style={[styles.saveBtn, !channelName && styles.saveBtnDisabled]}
               disabled={!channelName || createMutation.isPending}
-              onPress={() => createMutation.mutate({ body: { name: channelName, description: channelDesc || undefined } })}
+              onPress={() => createMutation.mutate({ name: channelName, description: channelDesc || undefined })}
             >
               {createMutation.isPending
                 ? <ActivityIndicator color="#000" />

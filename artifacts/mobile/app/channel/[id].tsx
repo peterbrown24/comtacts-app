@@ -9,13 +9,13 @@ import {
   ActivityIndicator,
   Platform,
   useWindowDimensions,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getChannelMessages, sendChannelMessage, getChannels } from "@workspace/api-client-react";
 import { Feather } from "@expo/vector-icons";
-import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import { Colors } from "@/constants/colors";
 
 type Message = {
@@ -79,12 +79,12 @@ export default function ChannelScreen() {
 
   const { data: messages = [], isLoading } = useQuery({
     queryKey: ["channelMessages", channelId],
-    queryFn: () => getChannelMessages({ channelId }),
+    queryFn: () => getChannelMessages(channelId),
     refetchInterval: 2000,
   });
 
   const sendMutation = useMutation({
-    mutationFn: (body: string) => sendChannelMessage({ channelId, body: { body } }),
+    mutationFn: (body: string) => sendChannelMessage(channelId, { body }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["channelMessages", channelId] });
       qc.invalidateQueries({ queryKey: ["channels"] });

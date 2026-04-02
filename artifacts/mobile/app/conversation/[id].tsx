@@ -9,13 +9,13 @@ import {
   ActivityIndicator,
   Platform,
   useWindowDimensions,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getConversationMessages, sendConversationMessage, getConversations } from "@workspace/api-client-react";
 import { Feather } from "@expo/vector-icons";
-import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import { Colors } from "@/constants/colors";
 
 type Message = {
@@ -79,12 +79,12 @@ export default function ConversationScreen() {
 
   const { data: messages = [], isLoading } = useQuery({
     queryKey: ["messages", convId],
-    queryFn: () => getConversationMessages({ conversationId: convId }),
+    queryFn: () => getConversationMessages(convId),
     refetchInterval: 2000,
   });
 
   const sendMutation = useMutation({
-    mutationFn: (body: string) => sendConversationMessage({ conversationId: convId, body: { body } }),
+    mutationFn: (body: string) => sendConversationMessage(convId, { body }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["messages", convId] });
       qc.invalidateQueries({ queryKey: ["conversations"] });
