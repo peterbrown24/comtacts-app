@@ -1,19 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   Platform,
-  TouchableOpacity,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
 import { getMe } from "@workspace/api-client-react";
-import { Feather, Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/colors";
-import { useSubscription } from "@/lib/revenuecat";
-import { PaywallModal } from "@/components/PaywallModal";
 
 const ROYAL_BLUE = "#4169E1";
 
@@ -34,22 +31,8 @@ function InfoRow({ icon, label, value, iconColor }: { icon: string; label: strin
   );
 }
 
-function LockedRow({ label }: { label: string; onUpgrade: () => void }) {
-  return (
-    <View style={styles.infoRow}>
-      <Feather name="lock" size={14} color={ROYAL_BLUE} style={styles.infoIcon} />
-      <View>
-        <Text style={styles.infoLabel}>{label}</Text>
-        <Text style={[styles.infoValue, { color: ROYAL_BLUE }]}>Subscribe to unlock</Text>
-      </View>
-    </View>
-  );
-}
-
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
-  const { isSubscribed } = useSubscription();
-  const [showPaywall, setShowPaywall] = useState(false);
 
   const { data: user } = useQuery({
     queryKey: ["me"],
@@ -57,8 +40,6 @@ export default function ProfileScreen() {
   });
 
   if (!user) return null;
-
-  const hasPremiumInfo = !!(user.mobilePhone || user.personalEmail);
 
   return (
     <ScrollView
@@ -88,43 +69,24 @@ export default function ProfileScreen() {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>PUBLIC CONTACT INFO</Text>
+        <Text style={styles.sectionTitle}>CONTACT INFO</Text>
         <InfoRow icon="mail" label="Work Email" value={user.email} />
         {user.phone ? (
           <InfoRow icon="phone" label="Work Phone" value={user.phone} />
         ) : null}
+        {user.mobilePhone ? (
+          <InfoRow icon="smartphone" label="Mobile Direct" value={user.mobilePhone} iconColor={ROYAL_BLUE} />
+        ) : null}
+        {user.personalEmail ? (
+          <InfoRow icon="mail" label="Personal Email" value={user.personalEmail} iconColor={ROYAL_BLUE} />
+        ) : null}
       </View>
-
-      {hasPremiumInfo && (
-        <View style={styles.section}>
-          <View style={styles.premiumHeader}>
-            <Text style={styles.sectionTitle}>PREMIUM CONTACT INFO</Text>
-            {!isSubscribed && (
-              <TouchableOpacity style={styles.proBadge} onPress={() => setShowPaywall(true)}>
-                <Text style={styles.proBadgeText}>PRO</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-          {isSubscribed && user.mobilePhone ? (
-            <InfoRow icon="smartphone" label="Mobile Direct" value={user.mobilePhone} />
-          ) : user.mobilePhone ? (
-            <LockedRow label="Mobile Direct" onUpgrade={() => setShowPaywall(true)} />
-          ) : null}
-          {isSubscribed && user.personalEmail ? (
-            <InfoRow icon="mail" label="Personal Email" value={user.personalEmail} />
-          ) : user.personalEmail ? (
-            <LockedRow label="Personal Email" onUpgrade={() => setShowPaywall(true)} />
-          ) : null}
-        </View>
-      )}
 
       <View style={styles.versionRow}>
         <Text style={styles.versionText}>Comt@cts, Inc. v1.0.0</Text>
       </View>
 
       <View style={{ height: Platform.OS === "web" ? 34 : 100 }} />
-
-      <PaywallModal visible={showPaywall} onClose={() => setShowPaywall(false)} />
     </ScrollView>
   );
 }
@@ -142,9 +104,6 @@ const styles = StyleSheet.create({
   heroTitle: { color: Colors.textSecondary, fontFamily: "Inter_400Regular", fontSize: 15 },
   section: { marginHorizontal: 16, marginBottom: 16, backgroundColor: Colors.bgCard, borderRadius: 16, padding: 20, borderWidth: 1, borderColor: Colors.border, gap: 14 },
   sectionTitle: { color: Colors.textDim, fontFamily: "Inter_600SemiBold", fontSize: 11, letterSpacing: 1.2 },
-  premiumHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  proBadge: { backgroundColor: ROYAL_BLUE + "22", borderRadius: 6, paddingHorizontal: 7, paddingVertical: 3 },
-  proBadgeText: { color: ROYAL_BLUE, fontFamily: "Inter_700Bold", fontSize: 10, letterSpacing: 1 },
   infoRow: { flexDirection: "row", alignItems: "flex-start", gap: 12 },
   infoIcon: { marginTop: 2 },
   infoLabel: { color: Colors.textSecondary, fontFamily: "Inter_400Regular", fontSize: 12, marginBottom: 2 },

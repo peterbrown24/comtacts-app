@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   Platform,
   useWindowDimensions,
-  KeyboardAvoidingView,
+  Keyboard,
 } from "react-native";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -63,6 +63,21 @@ export default function ChannelScreen() {
   const flatRef = useRef<FlatList>(null);
   const { width: screenWidth } = useWindowDimensions();
   const isTablet = screenWidth >= 768;
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    if (Platform.OS !== "ios") return;
+    const showSub = Keyboard.addListener("keyboardWillShow", (e) =>
+      setKeyboardHeight(e.endCoordinates.height)
+    );
+    const hideSub = Keyboard.addListener("keyboardWillHide", () =>
+      setKeyboardHeight(0)
+    );
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
 
   const { data: channels = [] } = useQuery({
     queryKey: ["channels"],
@@ -97,12 +112,12 @@ export default function ChannelScreen() {
     sendMutation.mutate(text.trim());
   };
 
+  const bottomPadding = keyboardHeight > 0
+    ? keyboardHeight
+    : Math.max(insets.bottom, 8) + 8;
+
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={insets.top + 44}
-    >
+    <View style={styles.container}>
       {channel && (
         <View style={styles.channelHeader}>
           <Feather name="hash" size={14} color={Colors.accent} />
@@ -132,7 +147,7 @@ export default function ChannelScreen() {
       )}
       <View style={[
         styles.inputBar,
-        { paddingBottom: Math.max(insets.bottom, 8) + 8 },
+        { paddingBottom: bottomPadding },
         isTablet && { paddingHorizontal: 40, maxWidth: 800, alignSelf: "center", width: "100%" },
       ]}>
         <TextInput
@@ -155,7 +170,7 @@ export default function ChannelScreen() {
           }
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 

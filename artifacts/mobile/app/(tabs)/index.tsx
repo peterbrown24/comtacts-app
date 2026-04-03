@@ -20,8 +20,6 @@ import { getContacts, createContact, deleteContact, createConversation } from "@
 import type { Contact } from "@workspace/api-client-react";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/colors";
-import { useSubscription } from "@/lib/revenuecat";
-import { PaywallModal } from "@/components/PaywallModal";
 
 const ROYAL_BLUE = "#4169E1";
 const TYPE_COLORS = {
@@ -52,68 +50,20 @@ function Avatar({ initials, size = 44 }: { initials: string; size?: number }) {
   );
 }
 
-function PremiumField({
-  icon,
-  label,
-  value,
-  isSubscribed,
-  onUpgrade,
-}: {
-  icon: string;
-  label: string;
-  value?: string;
-  isSubscribed: boolean;
-  onUpgrade: () => void;
-}) {
-  if (isSubscribed && value) {
-    return (
-      <View style={styles.detailRow}>
-        <Feather name={icon as any} size={14} color={ROYAL_BLUE} style={styles.detailIcon} />
-        <View>
-          <Text style={styles.detailLabel}>{label}</Text>
-          <Text style={styles.detailValue}>{value}</Text>
-        </View>
-      </View>
-    );
-  }
-
-  if (!isSubscribed) {
-    return (
-      <TouchableOpacity style={styles.detailRowLocked} onPress={onUpgrade} activeOpacity={0.7}>
-        <Feather name="lock" size={14} color={ROYAL_BLUE} style={styles.detailIcon} />
-        <View style={{ flex: 1 }}>
-          <Text style={styles.detailLabel}>{label}</Text>
-          <Text style={styles.detailValueLocked}>Upgrade to Premium</Text>
-        </View>
-        <View style={styles.premiumBadge}>
-          <Text style={styles.premiumBadgeText}>PRO</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
-
-  return null;
-}
-
 function ContactDetailModal({
   contact,
   visible,
   onClose,
   onMessage,
   onDelete,
-  onUpgrade,
-  isSubscribed,
 }: {
   contact: Contact | null;
   visible: boolean;
   onClose: () => void;
   onMessage: (id: number) => void;
   onDelete: (id: number, name: string) => void;
-  onUpgrade: () => void;
-  isSubscribed: boolean;
 }) {
   if (!contact) return null;
-  const hasPremiumInfo = !!(contact.mobilePhone || contact.personalEmail);
 
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="pageSheet" onRequestClose={onClose}>
@@ -159,7 +109,7 @@ function ContactDetailModal({
           </View>
 
           <View style={styles.detailSection}>
-            <Text style={styles.detailSectionTitle}>PUBLIC CONTACT INFO</Text>
+            <Text style={styles.detailSectionTitle}>CONTACT INFO</Text>
             <View style={styles.detailRow}>
               <Feather name="mail" size={14} color={Colors.accent} style={styles.detailIcon} />
               <View>
@@ -176,34 +126,25 @@ function ContactDetailModal({
                 </View>
               </View>
             ) : null}
-          </View>
-
-          {hasPremiumInfo && (
-            <View style={styles.detailSection}>
-              <View style={styles.premiumSectionHeader}>
-                <Text style={styles.detailSectionTitle}>PREMIUM CONTACT INFO</Text>
-                {!isSubscribed && (
-                  <View style={styles.premiumBadge}>
-                    <Text style={styles.premiumBadgeText}>PRO</Text>
-                  </View>
-                )}
+            {contact.mobilePhone ? (
+              <View style={styles.detailRow}>
+                <Feather name="smartphone" size={14} color={ROYAL_BLUE} style={styles.detailIcon} />
+                <View>
+                  <Text style={styles.detailLabel}>Mobile Direct</Text>
+                  <Text style={styles.detailValue}>{contact.mobilePhone}</Text>
+                </View>
               </View>
-              <PremiumField
-                icon="smartphone"
-                label="Mobile Direct"
-                value={contact.mobilePhone}
-                isSubscribed={isSubscribed}
-                onUpgrade={onUpgrade}
-              />
-              <PremiumField
-                icon="mail"
-                label="Personal Email"
-                value={contact.personalEmail}
-                isSubscribed={isSubscribed}
-                onUpgrade={onUpgrade}
-              />
-            </View>
-          )}
+            ) : null}
+            {contact.personalEmail ? (
+              <View style={styles.detailRow}>
+                <Feather name="mail" size={14} color={ROYAL_BLUE} style={styles.detailIcon} />
+                <View>
+                  <Text style={styles.detailLabel}>Personal Email</Text>
+                  <Text style={styles.detailValue}>{contact.personalEmail}</Text>
+                </View>
+              </View>
+            ) : null}
+          </View>
         </ScrollView>
       </View>
     </Modal>
@@ -214,11 +155,9 @@ export default function ContactsScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const qc = useQueryClient();
-  const { isSubscribed } = useSubscription();
   const [search, setSearch] = useState("");
   const [showAdd, setShowAdd] = useState(false);
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
-  const [showPaywall, setShowPaywall] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -346,11 +285,7 @@ export default function ContactsScreen() {
         onClose={() => setSelectedContact(null)}
         onMessage={(id) => messageMutation.mutate(id)}
         onDelete={handleDelete}
-        onUpgrade={() => { setSelectedContact(null); setShowPaywall(true); }}
-        isSubscribed={isSubscribed}
       />
-
-      <PaywallModal visible={showPaywall} onClose={() => setShowPaywall(false)} />
 
       <Modal visible={showAdd} animationType="slide" presentationStyle="pageSheet">
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
@@ -472,17 +407,12 @@ const styles = StyleSheet.create({
   detailSection: { width: "100%", backgroundColor: Colors.bgCard, borderRadius: 14, padding: 16, marginBottom: 16, gap: 14 },
   detailSectionTitle: { color: Colors.textDim, fontFamily: "Inter_600SemiBold", fontSize: 11, letterSpacing: 1.2, marginBottom: 4 },
   detailRow: { flexDirection: "row", alignItems: "flex-start", gap: 12 },
-  detailRowLocked: { flexDirection: "row", alignItems: "center", gap: 12 },
   detailIcon: { marginTop: 2 },
   detailLabel: { color: Colors.textSecondary, fontFamily: "Inter_400Regular", fontSize: 12, marginBottom: 2 },
   detailValue: { color: Colors.text, fontFamily: "Inter_500Medium", fontSize: 14 },
-  detailValueLocked: { color: ROYAL_BLUE, fontFamily: "Inter_500Medium", fontSize: 14 },
-  premiumSectionHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 4 },
-  premiumBadge: { backgroundColor: ROYAL_BLUE + "22", borderRadius: 6, paddingHorizontal: 7, paddingVertical: 3 },
-  premiumBadgeText: { color: ROYAL_BLUE, fontFamily: "Inter_700Bold", fontSize: 10, letterSpacing: 1 },
+  detailNameRow: { flexDirection: "row", alignItems: "center", gap: 8, justifyContent: "center", marginBottom: 4 },
   typeBadge: { borderRadius: 5, paddingHorizontal: 6, paddingVertical: 2 },
   typeBadgeText: { fontFamily: "Inter_700Bold", fontSize: 11, letterSpacing: 0.5 },
-  detailNameRow: { flexDirection: "row", alignItems: "center", gap: 8, justifyContent: "center", marginBottom: 4 },
   typeSelector: { flexDirection: "row", gap: 8 },
   typeOption: { flex: 1, borderRadius: 10, paddingVertical: 10, alignItems: "center", backgroundColor: Colors.bgCard, borderWidth: 1, borderColor: Colors.border },
   typeOptionText: { color: Colors.textSecondary, fontFamily: "Inter_600SemiBold", fontSize: 13 },
