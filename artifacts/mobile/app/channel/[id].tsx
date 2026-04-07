@@ -112,12 +112,10 @@ export default function ChannelScreen() {
     sendMutation.mutate(text.trim());
   };
 
-  const bottomPadding = keyboardHeight > 0
-    ? keyboardHeight
-    : Math.max(insets.bottom, 8) + 8;
+  const safeBottom = Math.max(insets.bottom, 8) + 8;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingBottom: keyboardHeight > 0 ? keyboardHeight : 0 }]}>
       {channel && (
         <View style={styles.channelHeader}>
           <Feather name="hash" size={14} color={Colors.accent} />
@@ -147,7 +145,7 @@ export default function ChannelScreen() {
       )}
       <View style={[
         styles.inputBar,
-        { paddingBottom: bottomPadding },
+        { paddingBottom: keyboardHeight > 0 ? 8 : safeBottom },
         isTablet && { paddingHorizontal: 40, maxWidth: 800, alignSelf: "center", width: "100%" },
       ]}>
         <TextInput

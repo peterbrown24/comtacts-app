@@ -112,12 +112,10 @@ export default function ConversationScreen() {
     sendMutation.mutate(text.trim());
   };
 
-  const bottomPadding = keyboardHeight > 0
-    ? keyboardHeight
-    : Math.max(insets.bottom, 8) + 8;
+  const safeBottom = Math.max(insets.bottom, 8) + 8;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingBottom: keyboardHeight > 0 ? keyboardHeight : 0 }]}>
       {isLoading ? (
         <ActivityIndicator color={Colors.accent} style={{ flex: 1 }} />
       ) : (
@@ -141,7 +139,7 @@ export default function ConversationScreen() {
       )}
       <View style={[
         styles.inputBar,
-        { paddingBottom: bottomPadding },
+        { paddingBottom: keyboardHeight > 0 ? 8 : safeBottom },
         isTablet && { paddingHorizontal: 40, maxWidth: 800, alignSelf: "center", width: "100%" },
       ]}>
         <TextInput
