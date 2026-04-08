@@ -4,67 +4,75 @@ import Purchases from "react-native-purchases";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Constants from "expo-constants";
 
-const REVENUECAT_TEST_API_KEY = process.env.EXPO_PUBLIC_REVENUECAT_TEST_API_KEY;
-const REVENUECAT_IOS_API_KEY = process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY;
-const REVENUECAT_ANDROID_API_KEY = process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY;
+const REVENUECAT_TEST_API_KEY = process.env.EXPO_PUBLIC_REVENUECAT_TEST_API_KEY || "test_AkAcUZqGDrIeHCJWtNIuRHFoyJN";
+const REVENUECAT_IOS_API_KEY = process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY || "appl_QxarEUFMwERwFxJlCoAEtoQkCPO";
+const REVENUECAT_ANDROID_API_KEY = process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY || "goog_uBoauWMtENsOPFHOguASyFbEUJm";
 
 export const REVENUECAT_ENTITLEMENT_IDENTIFIER = "premium";
 
-function getRevenueCatApiKey() {
-  if(!REVENUECAT_TEST_API_KEY || !REVENUECAT_IOS_API_KEY || !REVENUECAT_ANDROID_API_KEY) {
-    throw new Error("RevenueCat Public API Keys not found");
-  }
+let revenueCatInitialized = false;
 
-  if(!REVENUECAT_ENTITLEMENT_IDENTIFIER) {
-    throw new Error("RevenueCat Entitlement Identifier not provided");
-  }
-
+function getRevenueCatApiKey(): string | null {
   if (__DEV__ || Platform.OS === "web" || Constants.executionEnvironment === "storeClient") {
-    return REVENUECAT_TEST_API_KEY;
+    return REVENUECAT_TEST_API_KEY || null;
   }
 
   if (Platform.OS === "ios") {
-    return REVENUECAT_IOS_API_KEY;
+    return REVENUECAT_IOS_API_KEY || null;
   }
 
   if (Platform.OS === "android") {
-    return REVENUECAT_ANDROID_API_KEY;
+    return REVENUECAT_ANDROID_API_KEY || null;
   }
 
-  return REVENUECAT_TEST_API_KEY;
+  return REVENUECAT_TEST_API_KEY || null;
 }
 
-export function initializeRevenueCat() {
+export function initializeRevenueCat(): boolean {
   const apiKey = getRevenueCatApiKey();
-  if (!apiKey) throw new Error("RevenueCat Public API Key not found");
+  if (!apiKey) {
+    console.warn("RevenueCat: No API key available, skipping initialization");
+    return false;
+  }
 
-  Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG);
-  Purchases.configure({ apiKey });
-
-  console.log("Configured RevenueCat");
+  try {
+    Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG);
+    Purchases.configure({ apiKey });
+    revenueCatInitialized = true;
+    console.log("Configured RevenueCat");
+    return true;
+  } catch (e) {
+    console.warn("RevenueCat: Failed to initialize", e);
+    return false;
+  }
 }
 
 function useSubscriptionContext() {
   const customerInfoQuery = useQuery({
     queryKey: ["revenuecat", "customer-info"],
     queryFn: async () => {
+      if (!revenueCatInitialized) return null;
       const info = await Purchases.getCustomerInfo();
       return info;
     },
     staleTime: 60 * 1000,
+    enabled: revenueCatInitialized,
   });
 
   const offeringsQuery = useQuery({
     queryKey: ["revenuecat", "offerings"],
     queryFn: async () => {
+      if (!revenueCatInitialized) return null;
       const offerings = await Purchases.getOfferings();
       return offerings;
     },
     staleTime: 300 * 1000,
+    enabled: revenueCatInitialized,
   });
 
   const purchaseMutation = useMutation({
     mutationFn: async (packageToPurchase: any) => {
+      if (!revenueCatInitialized) throw new Error("RevenueCat not initialized");
       const { customerInfo } = await Purchases.purchasePackage(packageToPurchase);
       return customerInfo;
     },
@@ -73,6 +81,7 @@ function useSubscriptionContext() {
 
   const restoreMutation = useMutation({
     mutationFn: async () => {
+      if (!revenueCatInitialized) throw new Error("RevenueCat not initialized");
       return Purchases.restorePurchases();
     },
     onSuccess: () => customerInfoQuery.refetch(),
@@ -84,7 +93,7 @@ function useSubscriptionContext() {
     customerInfo: customerInfoQuery.data,
     offerings: offeringsQuery.data,
     isSubscribed,
-    isLoading: customerInfoQuery.isLoading || offeringsQuery.isLoading,
+    isLoading: revenueCatInitialized ? (customerInfoQuery.isLoading || offeringsQuery.isLoading) : false,
     purchase: purchaseMutation.mutateAsync,
     restore: restoreMutation.mutateAsync,
     isPurchasing: purchaseMutation.isPending,
