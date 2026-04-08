@@ -116,6 +116,12 @@ The freemium subscription model is fully live. RevenueCat is connected and all A
 - Offering: `default`
 - Seed script: `pnpm --filter @workspace/scripts exec tsx src/seedRevenueCat.ts` (idempotent, safe to re-run)
 
+Client-side files:
+- `lib/revenuecat.tsx` — `initializeRevenueCat()`, `SubscriptionProvider`, `useSubscription` hook
+- `components/PaywallModal.tsx` — Paywall UI with purchase confirmation modal
+- Premium gates: Profile screen locks Mobile Direct & Personal Email behind `premium` entitlement
+- `_layout.tsx` wraps app in `SubscriptionProvider`, calls `initializeRevenueCat()` at startup
+
 Environment variables set (shared):
 - `EXPO_PUBLIC_REVENUECAT_TEST_API_KEY`
 - `EXPO_PUBLIC_REVENUECAT_IOS_API_KEY`
