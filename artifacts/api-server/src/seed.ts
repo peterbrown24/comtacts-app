@@ -1,5 +1,5 @@
 import { db } from "@workspace/db";
-import { contactsTable, channelsTable, conversationsTable, messagesTable } from "@workspace/db/schema";
+import { contactsTable, channelsTable, conversationsTable, messagesTable, referralsTable } from "@workspace/db/schema";
 import { sql } from "drizzle-orm";
 
 export async function seedIfEmpty() {

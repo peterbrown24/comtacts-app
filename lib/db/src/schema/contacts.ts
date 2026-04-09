@@ -1,9 +1,10 @@
-import { pgTable, text, serial, timestamp, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, pgEnum, integer } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
 export const statusEnum = pgEnum("status", ["online", "away", "offline"]);
 export const contactTypeEnum = pgEnum("contact_type", ["vendor", "merchant"]);
+export const referralStatusEnum = pgEnum("referral_status", ["pending", "completed", "rewarded"]);
 
 export const usersTable = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -11,6 +12,7 @@ export const usersTable = pgTable("users", {
   email: text("email").notNull().unique(),
   title: text("title").notNull().default(""),
   avatarInitials: text("avatar_initials").notNull(),
+  referralCode: text("referral_code").unique(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
@@ -55,6 +57,17 @@ export const messagesTable = pgTable("messages", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+export const referralsTable = pgTable("referrals", {
+  id: serial("id").primaryKey(),
+  referrerId: integer("referrer_id").notNull().references(() => contactsTable.id),
+  referredId: integer("referred_id").references(() => contactsTable.id),
+  referredName: text("referred_name"),
+  status: referralStatusEnum("status").notNull().default("pending"),
+  rewardDays: integer("reward_days").notNull().default(0),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  completedAt: timestamp("completed_at"),
+});
+
 export const insertContactSchema = createInsertSchema(contactsTable).omit({ id: true, createdAt: true });
 export const insertChannelSchema = createInsertSchema(channelsTable).omit({ id: true, createdAt: true });
 export const insertMessageSchema = createInsertSchema(messagesTable).omit({ id: true, createdAt: true });
@@ -63,3 +76,4 @@ export type Contact = typeof contactsTable.$inferSelect;
 export type InsertContact = z.infer<typeof insertContactSchema>;
 export type Channel = typeof channelsTable.$inferSelect;
 export type Message = typeof messagesTable.$inferSelect;
+export type Referral = typeof referralsTable.$inferSelect;

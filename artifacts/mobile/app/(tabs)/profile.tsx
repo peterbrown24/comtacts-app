@@ -11,6 +11,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
 import { getMe } from "@workspace/api-client-react";
 import { Feather } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { Colors } from "@/constants/colors";
 import { useSubscription } from "@/lib/revenuecat";
 import { PaywallModal } from "@/components/PaywallModal";
@@ -36,6 +37,7 @@ function InfoRow({ icon, label, value, iconColor }: { icon: string; label: strin
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
   const { isSubscribed } = useSubscription();
   const [showPaywall, setShowPaywall] = useState(false);
 
@@ -122,6 +124,23 @@ export default function ProfileScreen() {
         </TouchableOpacity>
       )}
 
+      <TouchableOpacity
+        style={styles.referralCard}
+        onPress={() => router.push("/referrals")}
+        activeOpacity={0.7}
+      >
+        <View style={styles.referralLeft}>
+          <View style={styles.referralIconCircle}>
+            <Feather name="users" size={20} color={ROYAL_BLUE} />
+          </View>
+          <View>
+            <Text style={styles.referralTitle}>Refer & Earn</Text>
+            <Text style={styles.referralDesc}>Invite others, earn free Premium</Text>
+          </View>
+        </View>
+        <Feather name="chevron-right" size={20} color={Colors.textDim} />
+      </TouchableOpacity>
+
       <View style={styles.versionRow}>
         <Text style={styles.versionText}>Comt@cts, Inc. v1.0.0</Text>
       </View>
@@ -161,6 +180,11 @@ const styles = StyleSheet.create({
   upgradeIconCircle: { width: 44, height: 44, borderRadius: 22, backgroundColor: "#F59E0B" + "20", alignItems: "center", justifyContent: "center" },
   upgradeTitle: { color: Colors.text, fontFamily: "Inter_600SemiBold", fontSize: 15 },
   upgradeDesc: { color: Colors.textSecondary, fontFamily: "Inter_400Regular", fontSize: 13, marginTop: 2 },
+  referralCard: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginHorizontal: 16, marginBottom: 16, backgroundColor: Colors.bgCard, borderRadius: 16, padding: 18, borderWidth: 1, borderColor: ROYAL_BLUE + "40" },
+  referralLeft: { flexDirection: "row", alignItems: "center", gap: 14 },
+  referralIconCircle: { width: 44, height: 44, borderRadius: 22, backgroundColor: ROYAL_BLUE + "20", alignItems: "center", justifyContent: "center" },
+  referralTitle: { color: Colors.text, fontFamily: "Inter_600SemiBold", fontSize: 15 },
+  referralDesc: { color: Colors.textSecondary, fontFamily: "Inter_400Regular", fontSize: 13, marginTop: 2 },
   versionRow: { alignItems: "center", paddingVertical: 8 },
   versionText: { color: Colors.textDim, fontFamily: "Inter_400Regular", fontSize: 13 },
 });

@@ -122,6 +122,17 @@ Client-side files:
 - Premium gates: Profile screen locks Mobile Direct & Personal Email behind `premium` entitlement
 - `_layout.tsx` wraps app in `SubscriptionProvider`, calls `initializeRevenueCat()` at startup
 
+### Referral + Incentive Program
+
+Users can share their unique referral code (derived from their handle) to invite others and earn free Premium time.
+
+- DB table: `referrals` (referrer_id, referred_id, referred_name, status, reward_days, timestamps)
+- API: `GET /api/me/referrals` (stats + tiers), `POST /api/referrals/redeem` (redeem a code)
+- Client: `lib/api-client-react/src/referrals.ts` — `useGetMyReferrals`, `useRedeemReferral`
+- Mobile: `app/referrals.tsx` — full referral screen with code sharing, stats, tier progress
+- Profile entry: "Refer & Earn" card on profile screen navigates to referrals
+- Tiers: 1 referral → 1 free week, 3 → 1 month, 5 → 3 months, 10 → 1 year
+
 Environment variables set (shared):
 - `EXPO_PUBLIC_REVENUECAT_TEST_API_KEY`
 - `EXPO_PUBLIC_REVENUECAT_IOS_API_KEY`

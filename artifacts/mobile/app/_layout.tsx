@@ -45,6 +45,10 @@ function RootLayoutNav() {
         name="channel/[id]"
         options={{ title: "Channel", headerBackTitle: "Channels" }}
       />
+      <Stack.Screen
+        name="referrals"
+        options={{ title: "Referrals", headerBackTitle: "Profile" }}
+      />
     </Stack>
   );
 }
