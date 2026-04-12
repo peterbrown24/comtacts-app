@@ -13,6 +13,10 @@ export const usersTable = pgTable("users", {
   title: text("title").notNull().default(""),
   avatarInitials: text("avatar_initials").notNull(),
   referralCode: text("referral_code").unique(),
+  linkedIn: text("linkedin"),
+  twitter: text("twitter"),
+  instagram: text("instagram"),
+  facebook: text("facebook"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
@@ -29,6 +33,10 @@ export const contactsTable = pgTable("contacts", {
   personalEmail: text("personal_email"),
   avatarInitials: text("avatar_initials").notNull(),
   status: statusEnum("status").notNull().default("offline"),
+  linkedIn: text("linkedin"),
+  twitter: text("twitter"),
+  instagram: text("instagram"),
+  facebook: text("facebook"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 

@@ -23,6 +23,10 @@ router.get("/me", async (_req, res) => {
     personalEmail: alex.personalEmail ?? undefined,
     avatarInitials: alex.avatarInitials,
     status: alex.status,
+    linkedIn: alex.linkedIn ?? undefined,
+    twitter: alex.twitter ?? undefined,
+    instagram: alex.instagram ?? undefined,
+    facebook: alex.facebook ?? undefined,
   });
 });
 

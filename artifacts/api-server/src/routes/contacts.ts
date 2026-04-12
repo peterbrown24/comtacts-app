@@ -20,12 +20,16 @@ router.get("/contacts", async (req, res) => {
     personalEmail: c.personalEmail ?? undefined,
     avatarInitials: c.avatarInitials,
     status: c.status,
+    linkedIn: c.linkedIn ?? undefined,
+    twitter: c.twitter ?? undefined,
+    instagram: c.instagram ?? undefined,
+    facebook: c.facebook ?? undefined,
     createdAt: c.createdAt,
   })));
 });
 
 router.post("/contacts", async (req, res) => {
-  const { name, email, phone, company, title, mobilePhone, personalEmail, handle, contactType } = req.body;
+  const { name, email, phone, company, title, mobilePhone, personalEmail, handle, contactType, linkedIn, twitter, instagram, facebook } = req.body;
   if (!name || !email) {
     res.status(400).json({ error: "name and email are required" });
     return;
@@ -43,6 +47,10 @@ router.post("/contacts", async (req, res) => {
     personalEmail: personalEmail || null,
     avatarInitials: initials,
     status: "offline",
+    linkedIn: linkedIn || null,
+    twitter: twitter || null,
+    instagram: instagram || null,
+    facebook: facebook || null,
   }).returning();
   res.status(201).json({
     id: contact.id,
@@ -55,6 +63,10 @@ router.post("/contacts", async (req, res) => {
     title: contact.title ?? undefined,
     avatarInitials: contact.avatarInitials,
     status: contact.status,
+    linkedIn: contact.linkedIn ?? undefined,
+    twitter: contact.twitter ?? undefined,
+    instagram: contact.instagram ?? undefined,
+    facebook: contact.facebook ?? undefined,
     createdAt: contact.createdAt,
   });
 });
