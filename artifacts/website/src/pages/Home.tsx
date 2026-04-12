@@ -246,7 +246,7 @@ export default function Home() {
             />
             <SuiteCard
               icon={<Users size={32} />}
-              title={<>F<span className="text-accent">@</span>ce-To-F<span className="text-accent">@</span>ce</>}
+              title={<>F<span className="text-accent">@</span>ceGroup</>}
               subtitle="Group Video Calls"
               description="Bring the whole team together with group video calls. Multiple participants, crystal-clear video, and seamless collaboration — all within Comt@cts. Ideal for team meetings, standups, and live brainstorming."
               color="primary"
