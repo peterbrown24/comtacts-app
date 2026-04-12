@@ -142,6 +142,29 @@ All messages are encrypted at rest using AES-256-GCM. Security measures througho
 - Privacy Shield card on Profile screen showing "End-to-End Encrypted" status
 - Color: shield green matches accent `#00C896`
 
+### 2W@y Radio (CB Radio Feature)
+
+Citizens Band radio-style open voice channels using Agora RTC. Users tune in to a channel and everyone on that channel can hear and talk.
+
+- Screen: `app/two-way.tsx` — full CB radio interface with channel selector, push-to-talk, signal indicators
+- Navigation: accessible from Profile screen via "2W@y Radio" card
+- Stack entry: `_layout.tsx` registers `two-way` route with title "2W@y Radio"
+- Agora SDK: `react-native-agora` (audio-only, no video)
+- 10 preset channels: General, Dispatch, Logistics, Sales, Warehouse, Field Ops, Support, Management, Emergency, Open
+- Push-to-talk: hold button to transmit (unmute), release to listen (mute)
+- Web fallback: simulated mode for browser preview (no real audio)
+- Color: emerald green `#10B981`
+- Agora App ID: `55af1319f1d949c0a820de2ae7ad13db`
+
+### Communication Suite Feature Names
+
+- **Comch@t** — encrypted text messaging
+- **Comch@tter** — push-to-talk voice notes
+- **F@ce2F@ce** — 1-on-1 video calls
+- **F@ceGroup** — group video calls
+- **Comer@** — in-app camera
+- **2W@y** — CB radio-style open voice channels
+
 ### Referral + Incentive Program
 
 Users can share their unique referral code (derived from their handle) to invite others and earn free Premium time.

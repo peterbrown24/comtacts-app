@@ -49,6 +49,10 @@ function RootLayoutNav() {
         name="referrals"
         options={{ title: "Referrals", headerBackTitle: "Profile" }}
       />
+      <Stack.Screen
+        name="two-way"
+        options={{ title: "2W@y Radio", headerBackTitle: "Profile" }}
+      />
     </Stack>
   );
 }

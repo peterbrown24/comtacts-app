@@ -55,6 +55,7 @@
     "zod-validation-error": "^3.4.0"
   },
   "dependencies": {
+    "react-native-agora": "^4.6.2",
     "react-native-purchases": "^9.14.0"
   }
 }

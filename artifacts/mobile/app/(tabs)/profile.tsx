@@ -144,6 +144,23 @@ export default function ProfileScreen() {
         <Feather name="chevron-right" size={20} color={Colors.textDim} />
       </TouchableOpacity>
 
+      <TouchableOpacity
+        style={styles.twoWayCard}
+        onPress={() => router.push("/two-way")}
+        activeOpacity={0.7}
+      >
+        <View style={styles.twoWayLeft}>
+          <View style={styles.twoWayIconCircle}>
+            <Feather name="radio" size={20} color="#10B981" />
+          </View>
+          <View>
+            <Text style={styles.twoWayTitle}>2W@y Radio</Text>
+            <Text style={styles.twoWayDesc}>CB radio-style open channels</Text>
+          </View>
+        </View>
+        <Feather name="chevron-right" size={20} color={Colors.textDim} />
+      </TouchableOpacity>
+
       <View style={styles.versionRow}>
         <Text style={styles.versionText}>Comt@cts, Inc. v1.0.0</Text>
       </View>
@@ -188,6 +205,11 @@ const styles = StyleSheet.create({
   referralIconCircle: { width: 44, height: 44, borderRadius: 22, backgroundColor: ROYAL_BLUE + "20", alignItems: "center", justifyContent: "center" },
   referralTitle: { color: Colors.text, fontFamily: "Inter_600SemiBold", fontSize: 15 },
   referralDesc: { color: Colors.textSecondary, fontFamily: "Inter_400Regular", fontSize: 13, marginTop: 2 },
+  twoWayCard: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginHorizontal: 16, marginBottom: 16, backgroundColor: Colors.bgCard, borderRadius: 16, padding: 18, borderWidth: 1, borderColor: "#10B981" + "40" },
+  twoWayLeft: { flexDirection: "row", alignItems: "center", gap: 14 },
+  twoWayIconCircle: { width: 44, height: 44, borderRadius: 22, backgroundColor: "#10B981" + "20", alignItems: "center", justifyContent: "center" },
+  twoWayTitle: { color: Colors.text, fontFamily: "Inter_600SemiBold", fontSize: 15 },
+  twoWayDesc: { color: Colors.textSecondary, fontFamily: "Inter_400Regular", fontSize: 13, marginTop: 2 },
   versionRow: { alignItems: "center", paddingVertical: 8 },
   versionText: { color: Colors.textDim, fontFamily: "Inter_400Regular", fontSize: 13 },
 });
