@@ -5,10 +5,8 @@ import {
   Hash, 
   Clock, 
   AtSign, 
-  Star, 
   ArrowRight,
   ShieldCheck,
-  Building2,
   Smartphone,
   Lock,
   Video,
@@ -19,351 +17,392 @@ import {
   Gift,
   Shield,
   Radio,
-  Volume2
+  Volume2,
+  Zap,
+  Star,
+  ChevronRight,
+  Globe,
+  Fingerprint
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (delay: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, delay, ease: [0.25, 0.1, 0.25, 1] }
+  })
+};
 
 export default function Home() {
   return (
     <PageLayout>
-      {/* HERO SECTION */}
-      <section className="relative pt-20 pb-32 lg:pt-32 lg:pb-40 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-2xl"
-            >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary mb-6">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                </span>
-                <span className="text-sm font-medium">Now available on iOS</span>
-              </div>
-              
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold font-display leading-[1.1] mb-4">
-                What's your <br />
-                <span className="text-gradient">Comt<span className="text-accent">@</span>ct</span>?
-              </h1>
+      {/* HERO */}
+      <section className="relative pt-24 pb-20 lg:pt-36 lg:pb-32 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-[10%] left-[5%] w-[600px] h-[600px] rounded-full bg-primary/8 blur-[140px]" />
+          <div className="absolute bottom-[10%] right-[10%] w-[400px] h-[400px] rounded-full bg-accent/6 blur-[120px]" />
+        </div>
 
-              <p className="text-2xl sm:text-3xl font-display font-semibold text-white/80 mb-6">
-                Your Business Communication Hub
-              </p>
-              
-              <p className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed">
-                Organize your professional network, message securely, collaborate in team channels, 
-                and connect face-to-face — all encrypted, all in one premium app.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a 
-                  href="#" 
-                  className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white bg-primary rounded-2xl overflow-hidden transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_40px_-10px_rgba(65,105,225,0.5)]"
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              className="max-w-xl"
+            >
+              <motion.div
+                variants={fadeUp}
+                custom={0}
+                className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.08] mb-8"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+                </span>
+                <span className="text-sm font-medium text-white/70">Now available on iOS</span>
+              </motion.div>
+
+              <motion.h1
+                variants={fadeUp}
+                custom={0.08}
+                className="text-5xl sm:text-6xl lg:text-[4.5rem] font-extrabold font-display leading-[1.05] mb-6"
+              >
+                What's your{" "}
+                <span className="text-gradient">Comt<span className="text-accent">@</span>ct</span>?
+              </motion.h1>
+
+              <motion.p
+                variants={fadeUp}
+                custom={0.16}
+                className="text-lg sm:text-xl text-muted-foreground leading-relaxed mb-10 max-w-lg"
+              >
+                Organize your professional network, message securely, collaborate in team channels, and connect face-to-face — all encrypted, all in one premium app.
+              </motion.p>
+
+              <motion.div variants={fadeUp} custom={0.24} className="flex flex-col sm:flex-row gap-4">
+                <a
+                  href="#"
+                  className="group relative inline-flex items-center justify-center gap-2.5 px-8 py-4 font-bold text-white rounded-2xl overflow-hidden transition-all hover:scale-[1.02] active:scale-[0.98]"
                   onClick={(e) => e.preventDefault()}
+                  style={{ background: "linear-gradient(135deg, #4169E1 0%, #3458c9 100%)", boxShadow: "0 0 40px -8px rgba(65,105,225,0.45), inset 0 1px 0 rgba(255,255,255,0.1)" }}
                 >
-                  <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-400 to-primary opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                  <span className="relative flex items-center gap-2">
-                    Download for iOS
-                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                  </span>
+                  Download for iOS
+                  <ArrowRight size={18} className="group-hover:translate-x-0.5 transition-transform" />
                 </a>
-                <a 
-                  href="#features" 
-                  className="inline-flex items-center justify-center px-8 py-4 font-medium text-white bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-colors"
+                <a
+                  href="#features"
+                  className="inline-flex items-center justify-center px-8 py-4 font-semibold text-white/80 bg-white/[0.04] border border-white/[0.08] rounded-2xl hover:bg-white/[0.07] hover:border-white/[0.12] transition-all"
                 >
                   Explore Features
                 </a>
-              </div>
-              
-              <div className="mt-10 flex items-center gap-6 text-sm text-muted-foreground">
-                <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="w-8 h-8 rounded-full border-2 border-background bg-secondary flex items-center justify-center overflow-hidden">
-                       <img src={`https://images.unsplash.com/photo-15${i}13361500-118121111000?w=100&h=100&fit=crop&q=80`} alt="User avatar" className="w-full h-full object-cover opacity-80" />
-                    </div>
-                  ))}
+              </motion.div>
+
+              <motion.div variants={fadeUp} custom={0.32} className="mt-12 flex items-center gap-5">
+                <div className="flex -space-x-2.5">
+                  <div className="w-9 h-9 rounded-full border-2 border-background bg-gradient-to-br from-primary/40 to-accent/40 flex items-center justify-center text-[10px] font-bold text-white">PB</div>
+                  <div className="w-9 h-9 rounded-full border-2 border-background bg-gradient-to-br from-violet-500/40 to-primary/40 flex items-center justify-center text-[10px] font-bold text-white">MK</div>
+                  <div className="w-9 h-9 rounded-full border-2 border-background bg-gradient-to-br from-accent/40 to-emerald-500/40 flex items-center justify-center text-[10px] font-bold text-white">JD</div>
+                  <div className="w-9 h-9 rounded-full border-2 border-background bg-gradient-to-br from-amber-500/40 to-primary/40 flex items-center justify-center text-[10px] font-bold text-white">+</div>
                 </div>
-                <p>Joined by 10,000+ professionals</p>
-              </div>
+                <div>
+                  <p className="text-sm font-semibold text-white/80">10,000+ professionals</p>
+                  <p className="text-xs text-muted-foreground">Growing every day</p>
+                </div>
+              </motion.div>
             </motion.div>
 
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9, rotateY: 10 }}
-              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative lg:h-[600px] flex items-center justify-center lg:justify-end perspective-1000"
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="relative flex items-center justify-center lg:justify-end"
             >
-              <div className="relative w-full max-w-[320px] aspect-[9/19] rounded-[40px] border-[8px] border-secondary/50 shadow-2xl shadow-primary/20 overflow-hidden bg-card">
-                <div className="absolute top-0 inset-x-0 h-6 bg-secondary/50 rounded-b-3xl z-20 flex justify-center">
-                  <div className="w-16 h-4 bg-background rounded-b-xl mt-[-2px]"></div>
+              <div className="relative">
+                <div className="absolute -inset-8 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 rounded-[60px] blur-2xl" />
+                <div className="relative w-[280px] sm:w-[300px] aspect-[9/19] rounded-[36px] border border-white/[0.08] shadow-2xl shadow-black/40 overflow-hidden bg-card">
+                  <div className="absolute top-0 inset-x-0 h-7 bg-black/40 backdrop-blur-sm z-20 flex justify-center">
+                    <div className="w-20 h-5 bg-black rounded-b-2xl"></div>
+                  </div>
+                  <img
+                    src={`${import.meta.env.BASE_URL}images/hero-app-mockup.png`}
+                    alt="Comt@cts App"
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
-                <img 
-                  src={`${import.meta.env.BASE_URL}images/hero-app-mockup.png`} 
-                  alt="Comt@cts App Interface" 
-                  className="w-full h-full object-cover object-top"
-                />
-                
-                <motion.div 
-                  animate={{ y: [0, -10, 0] }}
+
+                <motion.div
+                  animate={{ y: [0, -8, 0] }}
                   transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                  className="absolute bottom-10 -left-12 glass-panel p-4 rounded-2xl flex items-center gap-3 hidden md:flex"
+                  className="absolute -bottom-4 -left-16 hidden md:flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-card/80 backdrop-blur-xl border border-white/[0.08] shadow-xl shadow-black/30"
                 >
-                  <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-accent">
-                    <ShieldCheck size={20} />
+                  <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center">
+                    <ShieldCheck size={20} className="text-accent" />
                   </div>
                   <div>
                     <p className="text-sm font-bold text-white">Vendor Verified</p>
-                    <p className="text-xs text-muted-foreground">Logistics Partner</p>
+                    <p className="text-[11px] text-muted-foreground">Logistics Partner</p>
                   </div>
                 </motion.div>
 
-                <motion.div 
-                  animate={{ y: [0, 8, 0] }}
+                <motion.div
+                  animate={{ y: [0, 6, 0] }}
                   transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 1 }}
-                  className="absolute top-24 -right-14 glass-panel p-3 rounded-2xl flex items-center gap-2 hidden md:flex"
+                  className="absolute top-20 -right-14 hidden md:flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-card/80 backdrop-blur-xl border border-white/[0.08] shadow-xl shadow-black/30"
                 >
-                  <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
-                    <Lock size={16} />
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/15 flex items-center justify-center">
+                    <Lock size={14} className="text-emerald-400" />
                   </div>
-                  <div>
-                    <p className="text-xs font-bold text-white">AES-256 Encrypted</p>
-                  </div>
+                  <p className="text-xs font-bold text-white">AES-256 Encrypted</p>
                 </motion.div>
               </div>
             </motion.div>
-            
           </div>
         </div>
       </section>
 
-      {/* LOGO STRIP */}
-      <section className="border-y border-white/5 bg-black/20 backdrop-blur-sm py-8">
-        <div className="max-w-7xl mx-auto px-6">
-          <p className="text-center text-sm font-medium text-muted-foreground mb-6 uppercase tracking-wider">
-            Trusted by teams at
-          </p>
-          <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-            <div className="flex items-center gap-2"><Building2 size={24} /> <span className="font-display font-bold text-xl">Acme Corp</span></div>
-            <div className="flex items-center gap-2"><Building2 size={24} /> <span className="font-display font-bold text-xl">Globex</span></div>
-            <div className="flex items-center gap-2"><Building2 size={24} /> <span className="font-display font-bold text-xl">Soylent</span></div>
-            <div className="flex items-center gap-2"><Building2 size={24} /> <span className="font-display font-bold text-xl">Initech</span></div>
+      {/* STATS BAR */}
+      <section className="border-y border-white/[0.05] bg-white/[0.01]">
+        <div className="max-w-7xl mx-auto px-6 py-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <StatItem number="6" label="Communication Tools" />
+            <StatItem number="256" label="Bit AES-GCM Encryption" />
+            <StatItem number="10" label="Open Radio Channels" />
+            <StatItem number="$9.99" label="Premium Monthly" />
           </div>
         </div>
       </section>
 
-      {/* CORE FEATURES GRID */}
-      <section id="features" className="py-24 lg:py-32 relative">
+      {/* CORE FEATURES */}
+      <section id="features" className="py-28 lg:py-36 relative">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <h2 className="text-primary font-semibold tracking-wider uppercase mb-3">Core Features</h2>
-            <h3 className="text-3xl md:text-5xl font-display font-bold mb-6">Everything you need to stay connected.</h3>
-            <p className="text-lg text-muted-foreground">
-              Comt@cts is designed from the ground up for professional teams, combining CRM-like contact management with real-time communication.
-            </p>
-          </div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="max-w-2xl mb-16"
+          >
+            <motion.p variants={fadeUp} custom={0} className="text-sm font-semibold text-primary tracking-widest uppercase mb-4">
+              Core Features
+            </motion.p>
+            <motion.h2 variants={fadeUp} custom={0.08} className="text-3xl md:text-5xl font-display font-bold mb-5 leading-tight">
+              Everything you need to stay connected.
+            </motion.h2>
+            <motion.p variants={fadeUp} custom={0.16} className="text-lg text-muted-foreground leading-relaxed">
+              Comt@cts combines CRM-like contact management with real-time communication — built from the ground up for professional teams.
+            </motion.p>
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <FeatureCard 
-              icon={<Users className="text-primary" size={28} />}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <FeatureCard
+              icon={<Users size={22} />}
               title="Professional Directory"
               description="Build a comprehensive directory. Vendor (V) and Merchant (M) badges make identifying external partners instant."
-              delay={0.1}
+              color="primary"
+              delay={0.05}
             />
-            <FeatureCard 
-              icon={<MessageSquare className="text-primary" size={28} />}
+            <FeatureCard
+              icon={<MessageSquare size={22} />}
               title="Direct Messaging"
               description="Secure 1-on-1 chats with full history, timestamps, read receipts, and a clean interface designed for business."
-              delay={0.2}
+              color="primary"
+              delay={0.1}
             />
-            <FeatureCard 
-              icon={<Hash className="text-primary" size={28} />}
+            <FeatureCard
+              icon={<Hash size={22} />}
               title="Team Channels"
               description="Dedicated spaces for Shipping, Sales, HR, and more. Keep group conversations focused and organized."
-              delay={0.3}
+              color="primary"
+              delay={0.15}
             />
-            <FeatureCard 
-              icon={<Clock className="text-accent" size={28} />}
+            <FeatureCard
+              icon={<Clock size={22} />}
               title="Real-time Status"
               description="Know when to reach out. See if contacts are online, away, or offline instantly."
-              delay={0.4}
+              color="accent"
+              delay={0.2}
             />
-            <FeatureCard 
-              icon={<AtSign className="text-accent" size={28} />}
+            <FeatureCard
+              icon={<AtSign size={22} />}
               title="Unique Handles"
               description="Every professional gets a unique @handle, making it easy to tag and find the right person quickly."
-              delay={0.5}
+              color="accent"
+              delay={0.25}
             />
-            <FeatureCard 
-              icon={<Share2 className="text-accent" size={28} />}
+            <FeatureCard
+              icon={<Share2 size={22} />}
               title="Social Media Links"
               description="Connect your LinkedIn, Twitter, Instagram, and more — all accessible right from your contact profile."
-              delay={0.6}
+              color="accent"
+              delay={0.3}
             />
           </div>
         </div>
       </section>
 
       {/* COMMUNICATION SUITE */}
-      <section className="py-24 lg:py-32 relative border-t border-white/5">
+      <section className="py-28 lg:py-36 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <h2 className="text-accent font-semibold tracking-wider uppercase mb-3">Communication Suite</h2>
-            <h3 className="text-3xl md:text-5xl font-display font-bold mb-6">
-              Comch<span className="text-accent">@</span>t. Talk. See. Capture. Transmit.
-            </h3>
-            <p className="text-lg text-muted-foreground">
-              Six powerful ways to connect with your team — from encrypted text to push-to-talk voice, one-on-one and group video, in-app camera, and CB radio-style open channels.
-            </p>
-          </div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
+            <motion.p variants={fadeUp} custom={0} className="text-sm font-semibold text-accent tracking-widest uppercase mb-4">
+              Communication Suite
+            </motion.p>
+            <motion.h2 variants={fadeUp} custom={0.08} className="text-3xl md:text-5xl font-display font-bold mb-5 leading-tight">
+              Six powerful ways to connect.
+            </motion.h2>
+            <motion.p variants={fadeUp} custom={0.16} className="text-lg text-muted-foreground leading-relaxed">
+              From encrypted text to push-to-talk voice, video calls, in-app camera, and CB radio-style open channels.
+            </motion.p>
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             <SuiteCard
-              icon={<MessageSquare size={32} />}
-              title={<>Comch<span className="text-accent">@</span>t</>}
-              subtitle="Encrypted Messaging"
-              description="Real-time text messaging with AES-256-GCM encryption at rest. Every message is encrypted before it's stored and decrypted only when you read it. Includes read receipts so you always know when your message has been seen."
+              icon={<MessageSquare size={24} />}
+              name={<>Comch<span className="text-accent">@</span>t</>}
+              label="Encrypted Messaging"
+              description="Real-time messaging with AES-256-GCM encryption at rest. Every message encrypted before storage, decrypted only when you read it."
               color="primary"
+              delay={0.05}
+            />
+            <SuiteCard
+              icon={<Mic size={24} />}
+              name={<>Comch<span className="text-violet-400">@</span>tter</>}
+              label="Push-to-Talk"
+              description="Instant voice communication at the press of a button. Record voice notes or use real-time walkie-talkie-style communication."
+              color="violet"
               delay={0.1}
             />
             <SuiteCard
-              icon={<Mic size={32} />}
-              title={<>Comch<span className="text-accent">@</span>tter</>}
-              subtitle="Push-to-Talk"
-              description="Instant voice communication at the press of a button. Record and send voice notes, or use push-to-talk for real-time walkie-talkie-style communication with your team. Fast, hands-free, and built for busy professionals."
-              color="violet"
+              icon={<Video size={24} />}
+              name={<>F<span className="text-accent">@</span>ce2F<span className="text-accent">@</span>ce</>}
+              label="1-on-1 Video"
+              description="Private video calls with any contact. High-quality, low-latency video powered by Agora — no third-party app needed."
+              color="accent"
+              delay={0.15}
+            />
+            <SuiteCard
+              icon={<Users size={24} />}
+              name={<>F<span className="text-primary">@</span>ceGroup</>}
+              label="Group Video"
+              description="Bring the whole team together with multi-participant video calls. Ideal for standups, meetings, and live brainstorming."
+              color="primary"
               delay={0.2}
             />
             <SuiteCard
-              icon={<Video size={32} />}
-              title={<>F<span className="text-accent">@</span>ce2F<span className="text-accent">@</span>ce</>}
-              subtitle="1-on-1 Video Calls"
-              description="Jump into a private video call with any contact directly from the app. High-quality, low-latency video powered by Agora — no third-party app needed. Perfect for quick check-ins and private conversations."
-              color="accent"
+              icon={<Camera size={24} />}
+              name={<>Comer<span className="text-amber-400">@</span></>}
+              label="In-App Camera"
+              description="Capture photos and video right inside Comt@cts. Snap a document, product, or whiteboard and share instantly."
+              color="amber"
+              delay={0.25}
+            />
+            <SuiteCard
+              icon={<Radio size={24} />}
+              name={<>2W<span className="text-emerald-400">@</span>y</>}
+              label="CB Radio Channels"
+              description="Open-channel voice communication. 10 preset channels, push-to-talk, speakerphone toggle — like classic CB radio for the modern workplace."
+              color="emerald"
               delay={0.3}
             />
-            <SuiteCard
-              icon={<Users size={32} />}
-              title={<>F<span className="text-accent">@</span>ceGroup</>}
-              subtitle="Group Video Calls"
-              description="Bring the whole team together with group video calls. Multiple participants, crystal-clear video, and seamless collaboration — all within Comt@cts. Ideal for team meetings, standups, and live brainstorming."
-              color="primary"
-              delay={0.35}
-            />
-            <SuiteCard
-              icon={<Camera size={32} />}
-              title={<>Comer<span className="text-accent">@</span></>}
-              subtitle="In-App Camera"
-              description="Capture photos and videos right inside Comt@cts. Snap a photo of a document, a product, or a whiteboard and share it instantly in any conversation or channel."
-              color="amber"
-              delay={0.4}
-            />
-            <SuiteCard
-              icon={<Radio size={32} />}
-              title={<>2W<span className="text-accent">@</span>y</>}
-              subtitle="CB Radio Channels"
-              description="Open-channel, Citizens Band radio-style voice communication. Tune in to any of 10 preset channels and everyone listening can hear and talk — just like classic CB radio. Includes a speakerphone toggle for hands-free listening and push-to-talk transmission. Built for warehouse floors, field teams, and live coordination."
-              color="emerald"
-              delay={0.5}
-            />
           </div>
         </div>
       </section>
 
-      {/* VOICE & RADIO SPOTLIGHT */}
-      <section className="py-24 lg:py-32 relative border-t border-white/5">
+      {/* 2W@Y SPOTLIGHT */}
+      <section className="py-28 lg:py-36 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-emerald-500/[0.03] blur-[100px]" />
+        </div>
+
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.5 }}
             >
-              <h2 className="text-emerald-400 font-semibold tracking-wider uppercase mb-3">Voice & Radio</h2>
-              <h3 className="text-3xl md:text-5xl font-display font-bold mb-6">
-                Talk like it's <span className="text-emerald-400">CB radio.</span><br />
-                No app switching. No dialing.
-              </h3>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                2W@y brings Citizens Band radio into the modern workplace. Tune in to any of 10 open channels, 
-                hold the button to talk, and everyone on the channel hears you instantly. Toggle speakerphone 
-                for hands-free operation on the warehouse floor, in the field, or at your desk.
+              <p className="text-sm font-semibold text-emerald-400 tracking-widest uppercase mb-4">Voice and Radio</p>
+              <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 leading-tight">
+                Talk like it's{" "}
+                <span className="text-emerald-400">CB radio.</span>
+              </h2>
+              <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
+                2W@y brings Citizens Band radio into the modern workplace. Tune in to any of 10 open channels,
+                hold the button to talk, and everyone listening hears you instantly.
               </p>
 
-              <div className="space-y-4">
-                <div className="flex items-start gap-4">
-                  <div className="mt-0.5 w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
-                    <Radio size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-display font-bold text-white mb-1">10 Open Channels</h4>
-                    <p className="text-sm text-muted-foreground">General, Dispatch, Logistics, Sales, Warehouse, Field Ops, Support, Management, Emergency, and Open</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="mt-0.5 w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
-                    <Volume2 size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-display font-bold text-white mb-1">Speakerphone Toggle</h4>
-                    <p className="text-sm text-muted-foreground">Switch between speaker and earpiece with one tap — hands-free or private listening</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="mt-0.5 w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 flex-shrink-0">
-                    <Mic size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-display font-bold text-white mb-1">Comch@tter Voice Notes</h4>
-                    <p className="text-sm text-muted-foreground">Record and send voice messages or use push-to-talk for real-time walkie-talkie-style communication</p>
-                  </div>
-                </div>
+              <div className="space-y-5">
+                <SpotlightItem
+                  icon={<Radio size={18} />}
+                  title="10 Open Channels"
+                  description="General, Dispatch, Logistics, Sales, Warehouse, Field Ops, Support, Management, Emergency, and Open"
+                  color="emerald"
+                />
+                <SpotlightItem
+                  icon={<Volume2 size={18} />}
+                  title="Speakerphone Toggle"
+                  description="Switch between speaker and earpiece with one tap — hands-free or private listening"
+                  color="emerald"
+                />
+                <SpotlightItem
+                  icon={<Mic size={18} />}
+                  title="Comch@tter Voice Notes"
+                  description="Record and send voice messages or use push-to-talk for real-time walkie-talkie communication"
+                  color="violet"
+                />
               </div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative flex items-center justify-center"
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="flex items-center justify-center"
             >
-              <div className="w-72 md:w-80 rounded-3xl bg-card border border-emerald-500/20 p-8 space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="flex items-end gap-0.5">
-                      <div className="w-1 h-2 rounded-sm bg-emerald-400"></div>
-                      <div className="w-1 h-3 rounded-sm bg-emerald-400"></div>
-                      <div className="w-1 h-4 rounded-sm bg-emerald-400"></div>
+              <div className="relative">
+                <div className="absolute -inset-6 rounded-[40px] bg-emerald-500/[0.04] blur-xl" />
+                <div className="relative w-72 md:w-80 rounded-3xl bg-card border border-emerald-500/15 p-8 space-y-6 shadow-2xl shadow-black/20">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-end gap-0.5">
+                        <div className="w-1 h-2 rounded-sm bg-emerald-400"></div>
+                        <div className="w-1 h-3 rounded-sm bg-emerald-400"></div>
+                        <div className="w-1 h-4 rounded-sm bg-emerald-400"></div>
+                      </div>
+                      <span className="text-emerald-400 text-xs font-bold tracking-widest">2W@Y RADIO</span>
                     </div>
-                    <span className="text-emerald-400 text-xs font-bold tracking-widest">2W@Y RADIO</span>
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
                   </div>
-                  <div className="w-2 h-2 rounded-full bg-emerald-400"></div>
-                </div>
-                <div>
-                  <div className="text-3xl font-display font-bold text-white">CH 01</div>
-                  <div className="text-muted-foreground text-sm">General</div>
-                </div>
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <span>3 listeners</span>
-                  <span className="text-emerald-400 font-bold">RX</span>
-                </div>
-                <motion.div
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                  className="w-28 h-28 mx-auto rounded-full border-2 border-emerald-400 bg-card flex flex-col items-center justify-center gap-1"
-                >
-                  <Mic size={32} className="text-emerald-400" />
-                  <span className="text-[10px] font-bold text-emerald-400 tracking-widest">PUSH TO TALK</span>
-                </motion.div>
-                <div className="flex items-center justify-center gap-3">
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-                    <Volume2 size={14} className="text-emerald-400" />
-                    <span className="text-xs font-semibold text-emerald-400">Speaker On</span>
+                  <div>
+                    <div className="text-3xl font-display font-bold text-white">CH 01</div>
+                    <div className="text-muted-foreground text-sm mt-0.5">General</div>
+                  </div>
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <span>3 listeners</span>
+                    <span className="text-emerald-400 font-bold tracking-wider">RX</span>
+                  </div>
+                  <motion.div
+                    animate={{ scale: [1, 1.04, 1] }}
+                    transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+                    className="w-28 h-28 mx-auto rounded-full border-2 border-emerald-400/40 bg-emerald-500/[0.06] flex flex-col items-center justify-center gap-1.5 shadow-[0_0_30px_-5px_rgba(16,185,129,0.15)]"
+                  >
+                    <Mic size={28} className="text-emerald-400" />
+                    <span className="text-[9px] font-bold text-emerald-400 tracking-[0.2em]">PUSH TO TALK</span>
+                  </motion.div>
+                  <div className="flex items-center justify-center">
+                    <div className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/8 border border-emerald-500/15">
+                      <Volume2 size={14} className="text-emerald-400" />
+                      <span className="text-xs font-semibold text-emerald-400">Speaker On</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -372,80 +411,67 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECURITY & PRIVACY */}
-      <section className="py-24 lg:py-32 relative border-t border-white/5">
+      {/* SECURITY */}
+      <section className="py-28 lg:py-36 relative">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/3 right-[10%] w-[500px] h-[500px] rounded-full bg-accent/[0.03] blur-[120px]" />
+        </div>
+
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.5 }}
             >
-              <h2 className="text-accent font-semibold tracking-wider uppercase mb-3">Privacy & Security</h2>
-              <h3 className="text-3xl md:text-5xl font-display font-bold mb-6">
-                Your data. Your business. <br />
+              <p className="text-sm font-semibold text-accent tracking-widest uppercase mb-4">Privacy and Security</p>
+              <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 leading-tight">
+                Your data. Your business.{" "}
                 <span className="text-accent">Our protection.</span>
-              </h3>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                Every message is encrypted with AES-256-GCM before it touches the database. 
-                Security headers, rate limiting, and input sanitization protect the platform at every layer. 
-                Your conversations stay between you and your contacts — always.
+              </h2>
+              <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
+                Every message is encrypted with AES-256-GCM before it touches the database.
+                Security headers, rate limiting, and input sanitization protect the platform at every layer.
               </p>
 
-              <div className="space-y-4">
-                <SecurityFeature 
-                  icon={<Lock size={20} />} 
-                  title="AES-256-GCM Encryption" 
-                  description="Military-grade encryption for every message stored at rest"
-                />
-                <SecurityFeature 
-                  icon={<Shield size={20} />} 
-                  title="Security Headers" 
-                  description="HSTS, XSS protection, and strict content policies on every request"
-                />
-                <SecurityFeature 
-                  icon={<CheckCheck size={20} />} 
-                  title="Read Receipts" 
-                  description="Know exactly when your message has been delivered and read"
-                />
-                <SecurityFeature 
-                  icon={<ShieldCheck size={20} />} 
-                  title="Rate Limiting" 
-                  description="Built-in abuse prevention to keep the platform safe and fast"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <SecurityCard icon={<Lock size={20} />} title="AES-256-GCM" description="Military-grade encryption at rest" />
+                <SecurityCard icon={<Shield size={20} />} title="Security Headers" description="HSTS, XSS, strict CSP" />
+                <SecurityCard icon={<Fingerprint size={20} />} title="Rate Limiting" description="Built-in abuse prevention" />
+                <SecurityCard icon={<CheckCheck size={20} />} title="Read Receipts" description="Delivery confirmation" />
               </div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative flex items-center justify-center"
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="flex items-center justify-center"
             >
-              <div className="relative w-72 h-72 md:w-96 md:h-96">
-                <div className="absolute inset-0 rounded-full bg-accent/5 border border-accent/10"></div>
-                <div className="absolute inset-8 rounded-full bg-accent/10 border border-accent/20"></div>
-                <div className="absolute inset-16 rounded-full bg-accent/15 border border-accent/30 flex items-center justify-center">
-                  <Shield size={64} className="text-accent" />
+              <div className="relative w-72 h-72 md:w-80 md:h-80">
+                <div className="absolute inset-0 rounded-full border border-accent/8" />
+                <div className="absolute inset-8 rounded-full border border-accent/12" />
+                <div className="absolute inset-16 rounded-full border border-accent/20 bg-accent/[0.03] flex items-center justify-center">
+                  <Shield size={56} className="text-accent" />
                 </div>
                 <motion.div
                   animate={{ rotate: 360 }}
-                  transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+                  transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
                   className="absolute inset-0"
                 >
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-card border border-accent/30 flex items-center justify-center">
-                    <Lock size={16} className="text-accent" />
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-card border border-accent/20 flex items-center justify-center shadow-lg shadow-black/20">
+                    <Lock size={14} className="text-accent" />
                   </div>
                 </motion.div>
                 <motion.div
                   animate={{ rotate: -360 }}
-                  transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+                  transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
                   className="absolute inset-4"
                 >
-                  <div className="absolute bottom-0 right-0 w-10 h-10 rounded-full bg-card border border-primary/30 flex items-center justify-center">
-                    <ShieldCheck size={16} className="text-primary" />
+                  <div className="absolute bottom-0 right-0 w-10 h-10 rounded-full bg-card border border-primary/20 flex items-center justify-center shadow-lg shadow-black/20">
+                    <ShieldCheck size={14} className="text-primary" />
                   </div>
                 </motion.div>
               </div>
@@ -455,37 +481,36 @@ export default function Home() {
       </section>
 
       {/* PREMIUM & REFERRAL */}
-      <section className="py-24 lg:py-32 relative border-t border-white/5">
+      <section className="py-28 lg:py-36 relative">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-2 gap-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="relative p-10 rounded-3xl bg-gradient-to-br from-amber-500/10 via-card to-card border border-amber-500/20 overflow-hidden"
+              className="relative p-10 rounded-3xl bg-card border border-amber-500/10 overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl"></div>
+              <div className="absolute top-0 right-0 w-60 h-60 bg-amber-500/[0.04] rounded-full blur-[80px] pointer-events-none" />
               <div className="relative">
-                <div className="mb-6 w-14 h-14 rounded-2xl bg-amber-500/20 flex items-center justify-center">
-                  <Star size={28} className="text-amber-400" />
+                <div className="mb-6 w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/15 flex items-center justify-center">
+                  <Star size={22} className="text-amber-400" />
                 </div>
-                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                <span className="inline-block px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/15 mb-4">
                   Premium
                 </span>
-                <h3 className="text-2xl md:text-3xl font-display font-bold mt-4 mb-4">
+                <h3 className="text-2xl md:text-3xl font-display font-bold mb-3">
                   Unlock Premium for $9.99/mo
                 </h3>
-                <p className="text-muted-foreground mb-6 leading-relaxed">
-                  Get access to direct mobile numbers and personal email addresses for all your contacts. 
-                  Reach the right person, the right way, every time.
+                <p className="text-muted-foreground mb-8 leading-relaxed">
+                  Get access to direct mobile numbers and personal email addresses for all your contacts.
                 </p>
-                <ul className="space-y-3 text-sm">
+                <div className="space-y-3">
                   <PremiumItem text="Direct mobile phone numbers" />
                   <PremiumItem text="Personal email addresses" />
                   <PremiumItem text="Priority support" />
                   <PremiumItem text="Cancel anytime" />
-                </ul>
+                </div>
               </div>
             </motion.div>
 
@@ -493,96 +518,125 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="relative p-10 rounded-3xl bg-gradient-to-br from-accent/10 via-card to-card border border-accent/20 overflow-hidden"
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="relative p-10 rounded-3xl bg-card border border-accent/10 overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-48 h-48 bg-accent/5 rounded-full blur-3xl"></div>
+              <div className="absolute top-0 right-0 w-60 h-60 bg-accent/[0.04] rounded-full blur-[80px] pointer-events-none" />
               <div className="relative">
-                <div className="mb-6 w-14 h-14 rounded-2xl bg-accent/20 flex items-center justify-center">
-                  <Gift size={28} className="text-accent" />
+                <div className="mb-6 w-12 h-12 rounded-2xl bg-accent/10 border border-accent/15 flex items-center justify-center">
+                  <Gift size={22} className="text-accent" />
                 </div>
-                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-accent/20 text-accent border border-accent/30">
-                  Refer & Earn
+                <span className="inline-block px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-accent/10 text-accent border border-accent/15 mb-4">
+                  Refer and Earn
                 </span>
-                <h3 className="text-2xl md:text-3xl font-display font-bold mt-4 mb-4">
+                <h3 className="text-2xl md:text-3xl font-display font-bold mb-3">
                   Get Free Premium Time
                 </h3>
-                <p className="text-muted-foreground mb-6 leading-relaxed">
-                  Share your unique referral code with colleagues and earn free Premium access. 
-                  The more you refer, the more you earn.
+                <p className="text-muted-foreground mb-8 leading-relaxed">
+                  Share your unique referral code with colleagues and earn free Premium access.
                 </p>
-                <ul className="space-y-3 text-sm">
+                <div className="space-y-2.5">
                   <ReferralTier count="1 referral" reward="1 free week" />
                   <ReferralTier count="3 referrals" reward="1 free month" />
                   <ReferralTier count="5 referrals" reward="3 free months" />
                   <ReferralTier count="10 referrals" reward="1 free year" />
-                </ul>
+                </div>
               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* CTA SECTION */}
-      <section className="py-24 relative overflow-hidden border-t border-white/5">
-        <div className="absolute inset-0 bg-primary/5"></div>
-        <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-full max-w-4xl bg-gradient-to-r from-transparent via-primary/10 to-transparent"></div>
-        
-        <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
-          <Smartphone size={48} className="mx-auto text-accent mb-6" />
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">What's your Comt<span className="text-accent">@</span>ct?</h2>
-          <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Join thousands of professionals who have simplified their workflow with Comt@cts. 
-            Your next deal, your next hire, your next big move — it all starts with one question.
-          </p>
-          <a 
-            href="#" 
-            className="inline-flex items-center justify-center px-8 py-4 font-bold text-background bg-foreground rounded-2xl hover:bg-gray-200 transition-colors shadow-xl"
-            onClick={(e) => e.preventDefault()}
+      {/* FINAL CTA */}
+      <section className="py-28 lg:py-36 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.03] to-transparent" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-primary/[0.05] blur-[100px]" />
+        </div>
+
+        <div className="max-w-3xl mx-auto px-6 relative z-10 text-center">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
           >
-            Download on the App Store
-          </a>
+            <motion.div variants={fadeUp} custom={0} className="mb-8 flex justify-center">
+              <div className="w-16 h-16 rounded-2xl bg-accent/10 border border-accent/15 flex items-center justify-center">
+                <Smartphone size={32} className="text-accent" />
+              </div>
+            </motion.div>
+            <motion.h2 variants={fadeUp} custom={0.08} className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6">
+              What's your Comt<span className="text-accent">@</span>ct?
+            </motion.h2>
+            <motion.p variants={fadeUp} custom={0.16} className="text-xl text-muted-foreground mb-10 leading-relaxed">
+              Join thousands of professionals who have simplified their workflow.
+              Your next deal, your next hire, your next big move — it starts here.
+            </motion.p>
+            <motion.div variants={fadeUp} custom={0.24}>
+              <a
+                href="#"
+                className="inline-flex items-center justify-center gap-2.5 px-10 py-4.5 font-bold text-background bg-foreground rounded-2xl hover:bg-gray-200 transition-all shadow-xl shadow-black/20 active:scale-[0.98]"
+                onClick={(e) => e.preventDefault()}
+              >
+                Download on the App Store
+                <ChevronRight size={18} />
+              </a>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
     </PageLayout>
   );
 }
 
-function FeatureCard({ 
-  icon, 
-  title, 
-  description, 
-  isPremium = false,
-  delay = 0 
-}: { 
-  icon: React.ReactNode, 
-  title: string, 
-  description: string,
-  isPremium?: boolean,
-  delay?: number
-}) {
+function StatItem({ number, label }: { number: string; label: string }) {
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay }}
-      className="group relative"
+      viewport={{ once: true }}
+      transition={{ duration: 0.4 }}
+      className="text-center"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-      <div className="relative h-full p-8 rounded-3xl bg-card border border-white/5 hover:border-white/10 transition-colors">
-        <div className="mb-6 w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center shadow-inner">
+      <p className="text-3xl md:text-4xl font-display font-extrabold text-gradient mb-1">{number}</p>
+      <p className="text-sm text-muted-foreground">{label}</p>
+    </motion.div>
+  );
+}
+
+function FeatureCard({
+  icon,
+  title,
+  description,
+  color,
+  delay = 0
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  color: string;
+  delay?: number;
+}) {
+  const colorStyles: Record<string, { iconBg: string; iconText: string; border: string }> = {
+    primary: { iconBg: "bg-primary/10", iconText: "text-primary", border: "border-primary/[0.06]" },
+    accent: { iconBg: "bg-accent/10", iconText: "text-accent", border: "border-accent/[0.06]" },
+  };
+  const c = colorStyles[color] || colorStyles.primary;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.4, delay }}
+      className="group"
+    >
+      <div className={`h-full p-7 rounded-2xl bg-card border ${c.border} hover:border-white/[0.08] transition-all duration-300`}>
+        <div className={`mb-5 w-11 h-11 rounded-xl ${c.iconBg} flex items-center justify-center ${c.iconText}`}>
           {icon}
         </div>
-        <div className="flex items-center gap-3 mb-3">
-          <h4 className="text-xl font-display font-bold text-white">{title}</h4>
-          {isPremium && (
-            <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/20 text-amber-400 border border-amber-500/30">
-              Premium
-            </span>
-          )}
-        </div>
-        <p className="text-muted-foreground leading-relaxed">{description}</p>
+        <h4 className="text-lg font-display font-bold text-white mb-2">{title}</h4>
+        <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
       </div>
     </motion.div>
   );
@@ -590,79 +644,103 @@ function FeatureCard({
 
 function SuiteCard({
   icon,
-  title,
-  subtitle,
+  name,
+  label,
   description,
   color,
   delay = 0
 }: {
-  icon: React.ReactNode,
-  title: React.ReactNode,
-  subtitle: string,
-  description: string,
-  color: string,
-  delay?: number
+  icon: React.ReactNode;
+  name: React.ReactNode;
+  label: string;
+  description: string;
+  color: string;
+  delay?: number;
 }) {
-  const colorMap: Record<string, { bg: string, border: string, text: string, glow: string }> = {
-    primary: { bg: "bg-primary/10", border: "border-primary/20", text: "text-primary", glow: "bg-primary/5" },
-    accent: { bg: "bg-accent/10", border: "border-accent/20", text: "text-accent", glow: "bg-accent/5" },
-    amber: { bg: "bg-amber-500/10", border: "border-amber-500/20", text: "text-amber-400", glow: "bg-amber-500/5" },
-    violet: { bg: "bg-violet-500/10", border: "border-violet-500/20", text: "text-violet-400", glow: "bg-violet-500/5" },
-    emerald: { bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-400", glow: "bg-emerald-500/5" },
+  const colorMap: Record<string, { bg: string; border: string; text: string; labelText: string }> = {
+    primary: { bg: "bg-primary/10", border: "border-primary/10", text: "text-primary", labelText: "text-primary" },
+    accent: { bg: "bg-accent/10", border: "border-accent/10", text: "text-accent", labelText: "text-accent" },
+    amber: { bg: "bg-amber-500/10", border: "border-amber-500/10", text: "text-amber-400", labelText: "text-amber-400" },
+    violet: { bg: "bg-violet-500/10", border: "border-violet-500/10", text: "text-violet-400", labelText: "text-violet-400" },
+    emerald: { bg: "bg-emerald-500/10", border: "border-emerald-500/10", text: "text-emerald-400", labelText: "text-emerald-400" },
   };
   const c = colorMap[color] || colorMap.primary;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay }}
-      className="group relative"
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.4, delay }}
+      className="group"
     >
-      <div className={`absolute top-0 right-0 w-40 h-40 ${c.glow} rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
-      <div className={`relative h-full p-8 rounded-3xl bg-card border ${c.border} hover:border-opacity-40 transition-colors`}>
-        <div className={`mb-5 w-14 h-14 rounded-2xl ${c.bg} flex items-center justify-center ${c.text}`}>
+      <div className={`h-full p-7 rounded-2xl bg-card border ${c.border} hover:border-white/[0.08] transition-all duration-300`}>
+        <div className={`mb-4 w-12 h-12 rounded-xl ${c.bg} flex items-center justify-center ${c.text}`}>
           {icon}
         </div>
-        <h4 className="text-2xl font-display font-bold text-white mb-1">{title}</h4>
-        <p className={`text-sm font-semibold ${c.text} uppercase tracking-wider mb-4`}>{subtitle}</p>
-        <p className="text-muted-foreground leading-relaxed">{description}</p>
+        <h4 className="text-xl font-display font-bold text-white mb-0.5">{name}</h4>
+        <p className={`text-xs font-semibold ${c.labelText} uppercase tracking-wider mb-3`}>{label}</p>
+        <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
       </div>
     </motion.div>
   );
 }
 
-function SecurityFeature({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+function SpotlightItem({
+  icon,
+  title,
+  description,
+  color
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  color: string;
+}) {
+  const bgColor = color === "violet" ? "bg-violet-500/10 border-violet-500/15" : "bg-emerald-500/10 border-emerald-500/15";
+  const textColor = color === "violet" ? "text-violet-400" : "text-emerald-400";
+
   return (
     <div className="flex items-start gap-4">
-      <div className="mt-0.5 w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent flex-shrink-0">
+      <div className={`mt-0.5 w-10 h-10 rounded-xl ${bgColor} border flex items-center justify-center ${textColor} flex-shrink-0`}>
         {icon}
       </div>
       <div>
         <h4 className="font-display font-bold text-white mb-1">{title}</h4>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
       </div>
+    </div>
+  );
+}
+
+function SecurityCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
+  return (
+    <div className="p-5 rounded-2xl bg-white/[0.02] border border-accent/[0.06] hover:border-accent/[0.12] transition-all">
+      <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent mb-3">
+        {icon}
+      </div>
+      <h4 className="font-display font-bold text-white text-sm mb-1">{title}</h4>
+      <p className="text-xs text-muted-foreground leading-relaxed">{description}</p>
     </div>
   );
 }
 
 function PremiumItem({ text }: { text: string }) {
   return (
-    <li className="flex items-center gap-3 text-white/80">
-      <div className="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0">
-        <CheckCheck size={12} className="text-amber-400" />
+    <div className="flex items-center gap-3 text-white/80 text-sm">
+      <div className="w-5 h-5 rounded-full bg-amber-500/15 flex items-center justify-center flex-shrink-0">
+        <CheckCheck size={11} className="text-amber-400" />
       </div>
       {text}
-    </li>
+    </div>
   );
 }
 
-function ReferralTier({ count, reward }: { count: string, reward: string }) {
+function ReferralTier({ count, reward }: { count: string; reward: string }) {
   return (
-    <li className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
-      <span className="text-white/80 font-medium">{count}</span>
-      <span className="text-accent font-bold">{reward}</span>
-    </li>
+    <div className="flex items-center justify-between p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+      <span className="text-sm text-white/70 font-medium">{count}</span>
+      <span className="text-sm text-accent font-bold">{reward}</span>
+    </div>
   );
 }
