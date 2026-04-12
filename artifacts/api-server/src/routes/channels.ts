@@ -2,6 +2,7 @@ import { Router, type IRouter } from "express";
 import { db } from "@workspace/db";
 import { channelsTable, messagesTable } from "@workspace/db/schema";
 import { eq, and, desc, isNull } from "drizzle-orm";
+import { encrypt, decrypt } from "../lib/encryption";
 
 const router: IRouter = Router();
 
@@ -14,14 +15,16 @@ router.get("/channels", async (req, res) => {
       .where(eq(messagesTable.channelId, ch.id))
       .orderBy(desc(messagesTable.createdAt)).limit(1);
     const allMsgs = await db.select().from(messagesTable).where(eq(messagesTable.channelId, ch.id));
+    const lastBody = lastMsgs[0]?.body ? decrypt(lastMsgs[0].body) : null;
     return {
       id: ch.id,
       name: ch.name,
       description: ch.description ?? undefined,
       memberCount: ch.memberCount,
-      lastMessage: lastMsgs[0]?.body ?? null,
+      lastMessage: lastBody,
       lastMessageAt: lastMsgs[0]?.createdAt?.toISOString() ?? null,
       unreadCount: allMsgs.filter(m => m.isMine === "false").length,
+      encrypted: true,
     };
   }));
   res.json(result);
@@ -45,6 +48,7 @@ router.post("/channels", async (req, res) => {
     lastMessage: null,
     lastMessageAt: null,
     unreadCount: 0,
+    encrypted: true,
   });
 });
 
@@ -55,12 +59,13 @@ router.get("/channels/:channelId/messages", async (req, res) => {
     .orderBy(messagesTable.createdAt);
   res.json(msgs.map(m => ({
     id: m.id,
-    body: m.body,
+    body: decrypt(m.body),
     senderName: m.senderName,
     senderInitials: m.senderInitials,
     isMine: m.isMine === "true",
     readAt: m.readAt?.toISOString() ?? null,
     createdAt: m.createdAt.toISOString(),
+    encrypted: true,
   })));
 });
 
@@ -71,8 +76,9 @@ router.post("/channels/:channelId/messages", async (req, res) => {
     res.status(400).json({ error: "body is required" });
     return;
   }
+  const encryptedBody = encrypt(body);
   const [msg] = await db.insert(messagesTable).values({
-    body,
+    body: encryptedBody,
     senderName: ME.name,
     senderInitials: ME.initials,
     isMine: "true",
@@ -81,12 +87,13 @@ router.post("/channels/:channelId/messages", async (req, res) => {
   }).returning();
   res.status(201).json({
     id: msg.id,
-    body: msg.body,
+    body: body,
     senderName: msg.senderName,
     senderInitials: msg.senderInitials,
     isMine: true,
     readAt: null,
     createdAt: msg.createdAt.toISOString(),
+    encrypted: true,
   });
 });
 

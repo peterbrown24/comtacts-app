@@ -122,6 +122,24 @@ Client-side files:
 - Premium gates: Profile screen locks Mobile Direct & Personal Email behind `premium` entitlement
 - `_layout.tsx` wraps app in `SubscriptionProvider`, calls `initializeRevenueCat()` at startup
 
+### Privacy & Security (Build 31)
+
+All messages are encrypted at rest using AES-256-GCM. Security measures throughout:
+
+**Server-side:**
+- `lib/encryption.ts` — AES-256-GCM encrypt/decrypt for message bodies stored in PostgreSQL
+- `lib/security.ts` — Security headers (HSTS, X-Content-Type-Options, X-Frame-Options, XSS Protection, Referrer-Policy, Permissions-Policy), rate limiting (120 req/min), input sanitization (XSS prevention)
+- `routes/security.ts` — `GET /api/security/status` endpoint returns encryption/security posture
+- Messages encrypted before DB insert, decrypted on read — transparent to the client
+- Encryption key derived from DATABASE_URL via scrypt (or custom ENCRYPTION_KEY env var)
+
+**Mobile UI indicators:**
+- `components/EncryptionBadge.tsx` — Three components: `EncryptionBadge` (compact/full), `EncryptionBanner` (chat header), `PrivacyShield` (profile card)
+- Encryption banner shown at top of all conversation and channel chat screens
+- Lock icons next to message previews in Messages and Channels lists
+- Privacy Shield card on Profile screen showing "End-to-End Encrypted" status
+- Color: shield green matches accent `#00C896`
+
 ### Referral + Incentive Program
 
 Users can share their unique referral code (derived from their handle) to invite others and earn free Premium time.

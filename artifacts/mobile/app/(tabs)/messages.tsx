@@ -12,7 +12,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
 import { getConversations } from "@workspace/api-client-react";
 import { useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/colors";
 
 function Avatar({ initials, size = 48 }: { initials: string; size?: number }) {
@@ -80,9 +80,12 @@ export default function MessagesScreen() {
                   <Text style={styles.rowTime}>{timeAgo(item.lastMessageAt)}</Text>
                 </View>
                 <View style={styles.rowBottom}>
-                  <Text style={styles.rowLast} numberOfLines={1}>
-                    {item.lastMessage ?? "No messages yet"}
-                  </Text>
+                  <View style={styles.rowLastWrap}>
+                    <Feather name="lock" size={10} color={Colors.accent + "60"} />
+                    <Text style={styles.rowLast} numberOfLines={1}>
+                      {item.lastMessage ?? "No messages yet"}
+                    </Text>
+                  </View>
                   {item.unreadCount > 0 && (
                     <View style={styles.badge}>
                       <Text style={styles.badgeText}>{item.unreadCount}</Text>
@@ -111,6 +114,7 @@ const styles = StyleSheet.create({
   rowName: { color: Colors.text, fontFamily: "Inter_600SemiBold", fontSize: 15 },
   rowTime: { color: Colors.textDim, fontFamily: "Inter_400Regular", fontSize: 12 },
   rowBottom: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  rowLastWrap: { flexDirection: "row", alignItems: "center", gap: 4, flex: 1 },
   rowLast: { color: Colors.textSecondary, fontFamily: "Inter_400Regular", fontSize: 14, flex: 1 },
   badge: { backgroundColor: Colors.accent, borderRadius: 10, minWidth: 20, height: 20, alignItems: "center", justifyContent: "center", paddingHorizontal: 6, marginLeft: 8 },
   badgeText: { color: "#000", fontFamily: "Inter_700Bold", fontSize: 11 },

@@ -6,6 +6,7 @@ import channelsRouter from "./channels";
 import meRouter from "./me";
 import referralsRouter from "./referrals";
 import companiesRouter from "./companies";
+import securityRouter from "./security";
 
 const router: IRouter = Router();
 
@@ -16,5 +17,6 @@ router.use(channelsRouter);
 router.use(meRouter);
 router.use(referralsRouter);
 router.use(companiesRouter);
+router.use(securityRouter);
 
 export default router;

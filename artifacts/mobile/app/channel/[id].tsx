@@ -17,6 +17,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getChannelMessages, sendChannelMessage, getChannels } from "@workspace/api-client-react";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/colors";
+import { EncryptionBanner } from "@/components/EncryptionBadge";
 
 type Message = {
   id: number;
@@ -116,6 +117,7 @@ export default function ChannelScreen() {
 
   return (
     <View style={[styles.container, { paddingBottom: keyboardHeight > 0 ? keyboardHeight : 0 }]}>
+      <EncryptionBanner />
       {channel && (
         <View style={styles.channelHeader}>
           <Feather name="hash" size={14} color={Colors.accent} />

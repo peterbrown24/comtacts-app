@@ -15,6 +15,7 @@ import { useRouter } from "expo-router";
 import { Colors } from "@/constants/colors";
 import { useSubscription } from "@/lib/revenuecat";
 import { PaywallModal } from "@/components/PaywallModal";
+import { PrivacyShield } from "@/components/EncryptionBadge";
 
 const ROYAL_BLUE = "#4169E1";
 
@@ -123,6 +124,8 @@ export default function ProfileScreen() {
           <Feather name="chevron-right" size={20} color={Colors.textDim} />
         </TouchableOpacity>
       )}
+
+      <PrivacyShield />
 
       <TouchableOpacity
         style={styles.referralCard}

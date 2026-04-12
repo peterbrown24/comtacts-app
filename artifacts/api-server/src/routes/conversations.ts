@@ -2,6 +2,7 @@ import { Router, type IRouter } from "express";
 import { db } from "@workspace/db";
 import { contactsTable, conversationsTable, messagesTable } from "@workspace/db/schema";
 import { eq, and, desc, isNull, inArray } from "drizzle-orm";
+import { encrypt, decrypt } from "../lib/encryption";
 
 const router: IRouter = Router();
 
@@ -18,15 +19,17 @@ router.get("/conversations", async (req, res) => {
       .where(and(eq(messagesTable.conversationId, c.id), eq(messagesTable.isMine, "false")));
     const ct = contact[0];
     if (!ct) return null;
+    const lastBody = lastMsgs[0]?.body ? decrypt(lastMsgs[0].body) : null;
     return {
       id: c.id,
       contactId: ct.id,
       contactName: ct.name,
       contactAvatarInitials: ct.avatarInitials,
       contactStatus: ct.status,
-      lastMessage: lastMsgs[0]?.body ?? null,
+      lastMessage: lastBody,
       lastMessageAt: lastMsgs[0]?.createdAt?.toISOString() ?? null,
       unreadCount: unread.length,
+      encrypted: true,
     };
   }));
   res.json(result.filter(Boolean));
@@ -51,6 +54,7 @@ router.post("/conversations", async (req, res) => {
       lastMessage: null,
       lastMessageAt: null,
       unreadCount: 0,
+      encrypted: true,
     });
     return;
   }
@@ -66,6 +70,7 @@ router.post("/conversations", async (req, res) => {
     lastMessage: null,
     lastMessageAt: null,
     unreadCount: 0,
+    encrypted: true,
   });
 });
 
@@ -76,12 +81,13 @@ router.get("/conversations/:conversationId/messages", async (req, res) => {
     .orderBy(messagesTable.createdAt);
   res.json(msgs.map(m => ({
     id: m.id,
-    body: m.body,
+    body: decrypt(m.body),
     senderName: m.senderName,
     senderInitials: m.senderInitials,
     isMine: m.isMine === "true",
     readAt: m.readAt?.toISOString() ?? null,
     createdAt: m.createdAt.toISOString(),
+    encrypted: true,
   })));
 });
 
@@ -92,8 +98,9 @@ router.post("/conversations/:conversationId/messages", async (req, res) => {
     res.status(400).json({ error: "body is required" });
     return;
   }
+  const encryptedBody = encrypt(body);
   const [msg] = await db.insert(messagesTable).values({
-    body,
+    body: encryptedBody,
     senderName: ME.name,
     senderInitials: ME.initials,
     isMine: "true",
@@ -102,12 +109,13 @@ router.post("/conversations/:conversationId/messages", async (req, res) => {
   }).returning();
   res.status(201).json({
     id: msg.id,
-    body: msg.body,
+    body: body,
     senderName: msg.senderName,
     senderInitials: msg.senderInitials,
     isMine: true,
     readAt: null,
     createdAt: msg.createdAt.toISOString(),
+    encrypted: true,
   });
 });
 

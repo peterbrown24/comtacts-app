@@ -17,6 +17,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getConversationMessages, sendConversationMessage, getConversations } from "@workspace/api-client-react";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/colors";
+import { EncryptionBanner, EncryptionBadge } from "@/components/EncryptionBadge";
 
 type Message = {
   id: number;
@@ -116,6 +117,7 @@ export default function ConversationScreen() {
 
   return (
     <View style={[styles.container, { paddingBottom: keyboardHeight > 0 ? keyboardHeight : 0 }]}>
+      <EncryptionBanner />
       {isLoading ? (
         <ActivityIndicator color={Colors.accent} style={{ flex: 1 }} />
       ) : (
