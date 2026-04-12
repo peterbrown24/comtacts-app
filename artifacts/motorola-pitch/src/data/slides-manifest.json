@@ -1,0 +1,66 @@
+[
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-111111111111",
+    "position": 1,
+    "filepath": "src/pages/slides/TitleSlide.tsx",
+    "title": "Comt@cts x Motorola Solutions",
+    "description": "Partnership proposal title slide with hero imagery and company positioning.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-222222222222",
+    "position": 2,
+    "filepath": "src/pages/slides/Opportunity.tsx",
+    "title": "The Opportunity",
+    "description": "Market context for professional PTT communication — growth projections and field team preferences.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-333333333333",
+    "position": 3,
+    "filepath": "src/pages/slides/Platform.tsx",
+    "title": "Introducing Comt@cts",
+    "description": "Overview of the six-feature communication platform with AES-256-GCM encryption.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-444444444444",
+    "position": 4,
+    "filepath": "src/pages/slides/TwoWay.tsx",
+    "title": "2W@y — CB Radio, Reimagined",
+    "description": "Deep dive into the 2W@y feature and the hardware opportunity for a dedicated PTT device.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-555555555555",
+    "position": 5,
+    "filepath": "src/pages/slides/Alignment.tsx",
+    "title": "Why Motorola Solutions?",
+    "description": "Strategic alignment between Motorola's hardware heritage and Comt@cts software platform.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-666666666666",
+    "position": 6,
+    "filepath": "src/pages/slides/Proposal.tsx",
+    "title": "The Vision",
+    "description": "Co-developed device concept, revenue model, and target markets.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-777777777777",
+    "position": 7,
+    "filepath": "src/pages/slides/Roadmap.tsx",
+    "title": "Partnership Roadmap",
+    "description": "Four-phase approach from discovery to market launch.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-888888888888",
+    "position": 8,
+    "filepath": "src/pages/slides/Closing.tsx",
+    "title": "Let's Build It Together",
+    "description": "Closing slide with contact information and partnership invitation.",
+    "speakerNotes": ""
+  }
+]

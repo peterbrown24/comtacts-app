@@ -1,5 +1,16 @@
 uploads = []
-generated = []
+
+[[generated]]
+id = "SPHYykEvC6KSiH0_-Cub2"
+uri = "file://artifacts/motorola-pitch/public/hero.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "raBYLYzkQCY8mo5Jw60M3"
+uri = "file://artifacts/motorola-pitch/public/device.png"
+type = "image"
+title = "generated_image"
 
 [[outputs]]
 id = "-ybUa-l8QOh8kVSMlZjMl"
