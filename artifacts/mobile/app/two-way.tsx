@@ -42,6 +42,7 @@ export default function TwoWayScreen() {
   const [showChannelPicker, setShowChannelPicker] = useState(false);
   const [agoraEngine, setAgoraEngine] = useState<any>(null);
   const [isJoining, setIsJoining] = useState(false);
+  const [speakerOn, setSpeakerOn] = useState(true);
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const glowAnim = useRef(new Animated.Value(0)).current;
   const transmitPulse = useRef<Animated.CompositeAnimation | null>(null);
@@ -194,6 +195,16 @@ export default function TwoWayScreen() {
     }
   }, [agoraEngine]);
 
+  const toggleSpeaker = useCallback(() => {
+    const next = !speakerOn;
+    setSpeakerOn(next);
+    if (Platform.OS !== "web" && agoraEngine) {
+      try {
+        agoraEngine.setEnableSpeakerphone(next);
+      } catch {}
+    }
+  }, [speakerOn, agoraEngine]);
+
   const glowColor = glowAnim.interpolate({
     inputRange: [0, 1],
     outputRange: ["transparent", RED_TRANSMIT + "40"],
@@ -345,14 +356,31 @@ export default function TwoWayScreen() {
                 </TouchableOpacity>
               </Animated.View>
 
-              <TouchableOpacity
-                style={styles.tuneOutBtn}
-                onPress={tuneOut}
-                activeOpacity={0.8}
-              >
-                <Feather name="power" size={18} color={Colors.danger} />
-                <Text style={styles.tuneOutText}>Tune Out</Text>
-              </TouchableOpacity>
+              <View style={styles.bottomControls}>
+                <TouchableOpacity
+                  style={[styles.speakerBtn, speakerOn && styles.speakerBtnActive]}
+                  onPress={toggleSpeaker}
+                  activeOpacity={0.8}
+                >
+                  <Feather
+                    name={speakerOn ? "volume-2" : "volume-x"}
+                    size={20}
+                    color={speakerOn ? EMERALD : Colors.textDim}
+                  />
+                  <Text style={[styles.speakerText, speakerOn && styles.speakerTextActive]}>
+                    {speakerOn ? "Speaker On" : "Speaker Off"}
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.tuneOutBtn}
+                  onPress={tuneOut}
+                  activeOpacity={0.8}
+                >
+                  <Feather name="power" size={18} color={Colors.danger} />
+                  <Text style={styles.tuneOutText}>Tune Out</Text>
+                </TouchableOpacity>
+              </View>
             </>
           )}
         </View>
@@ -562,12 +590,41 @@ const styles = StyleSheet.create({
   pttLabelActive: {
     color: "#FFF",
   },
+  bottomControls: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 16,
+    marginTop: 32,
+  },
+  speakerBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    backgroundColor: Colors.bgCard,
+  },
+  speakerBtnActive: {
+    borderColor: EMERALD_DIM,
+    backgroundColor: EMERALD + "10",
+  },
+  speakerText: {
+    color: Colors.textDim,
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 13,
+  },
+  speakerTextActive: {
+    color: EMERALD,
+  },
   tuneOutBtn: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    marginTop: 32,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 12,
     borderWidth: 1,
