@@ -215,7 +215,7 @@ export default function Home() {
               Comch<span className="text-accent">@</span>t. Talk. See. Capture. Transmit.
             </h3>
             <p className="text-lg text-muted-foreground">
-              Five powerful ways to connect with your team — from encrypted text to push-to-talk voice, face-to-face video, in-app camera, and CB radio-style open channels.
+              Six powerful ways to connect with your team — from encrypted text to push-to-talk voice, one-on-one and group video, in-app camera, and CB radio-style open channels.
             </p>
           </div>
 
@@ -239,10 +239,18 @@ export default function Home() {
             <SuiteCard
               icon={<Video size={32} />}
               title={<>F<span className="text-accent">@</span>ce2F<span className="text-accent">@</span>ce</>}
-              subtitle="Video Calling"
-              description="Jump into a video call with any contact directly from the app. High-quality, low-latency video powered by Agora — no third-party app needed. Perfect for quick check-ins or full team meetings."
+              subtitle="1-on-1 Video Calls"
+              description="Jump into a private video call with any contact directly from the app. High-quality, low-latency video powered by Agora — no third-party app needed. Perfect for quick check-ins and private conversations."
               color="accent"
               delay={0.3}
+            />
+            <SuiteCard
+              icon={<Users size={32} />}
+              title={<>F<span className="text-accent">@</span>ce-To-F<span className="text-accent">@</span>ce</>}
+              subtitle="Group Video Calls"
+              description="Bring the whole team together with group video calls. Multiple participants, crystal-clear video, and seamless collaboration — all within Comt@cts. Ideal for team meetings, standups, and live brainstorming."
+              color="primary"
+              delay={0.35}
             />
             <SuiteCard
               icon={<Camera size={32} />}
