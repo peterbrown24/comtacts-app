@@ -17,7 +17,8 @@ import {
   CheckCheck,
   Share2,
   Gift,
-  Shield
+  Shield,
+  Radio
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 
@@ -211,10 +212,10 @@ export default function Home() {
           <div className="text-center max-w-3xl mx-auto mb-20">
             <h2 className="text-accent font-semibold tracking-wider uppercase mb-3">Communication Suite</h2>
             <h3 className="text-3xl md:text-5xl font-display font-bold mb-6">
-              Comch<span className="text-accent">@</span>t. Talk. See. Capture.
+              Comch<span className="text-accent">@</span>t. Talk. See. Capture. Transmit.
             </h3>
             <p className="text-lg text-muted-foreground">
-              Four powerful ways to connect with your team — from instant text to face-to-face video, push-to-talk voice, and in-app camera.
+              Five powerful ways to connect with your team — from encrypted text to push-to-talk voice, face-to-face video, in-app camera, and CB radio-style open channels.
             </p>
           </div>
 
@@ -237,7 +238,7 @@ export default function Home() {
             />
             <SuiteCard
               icon={<Video size={32} />}
-              title={<>F<span className="text-accent">@</span>ce-to-F<span className="text-accent">@</span>ce</>}
+              title={<>F<span className="text-accent">@</span>ce2F<span className="text-accent">@</span>ce</>}
               subtitle="Video Calling"
               description="Jump into a video call with any contact directly from the app. High-quality, low-latency video powered by Agora — no third-party app needed. Perfect for quick check-ins or full team meetings."
               color="accent"
@@ -250,6 +251,14 @@ export default function Home() {
               description="Capture photos and videos right inside Comt@cts. Snap a photo of a document, a product, or a whiteboard and share it instantly in any conversation or channel."
               color="amber"
               delay={0.4}
+            />
+            <SuiteCard
+              icon={<Radio size={32} />}
+              title={<>2W<span className="text-accent">@</span>y</>}
+              subtitle="CB Radio Channels"
+              description="Open-channel, Citizens Band radio-style voice communication. Tune in to a channel and anyone listening can hear and talk — just like classic CB radio. Perfect for warehouse floors, field teams, and live coordination."
+              color="emerald"
+              delay={0.5}
             />
           </div>
         </div>
@@ -491,6 +500,7 @@ function SuiteCard({
     accent: { bg: "bg-accent/10", border: "border-accent/20", text: "text-accent", glow: "bg-accent/5" },
     amber: { bg: "bg-amber-500/10", border: "border-amber-500/20", text: "text-amber-400", glow: "bg-amber-500/5" },
     violet: { bg: "bg-violet-500/10", border: "border-violet-500/20", text: "text-violet-400", glow: "bg-violet-500/5" },
+    emerald: { bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-400", glow: "bg-emerald-500/5" },
   };
   const c = colorMap[color] || colorMap.primary;
 
