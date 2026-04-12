@@ -18,10 +18,8 @@ import {
   Shield,
   Radio,
   Volume2,
-  Zap,
   Star,
   ChevronRight,
-  Globe,
   Fingerprint
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -241,77 +239,259 @@ export default function Home() {
         </div>
       </section>
 
-      {/* COMMUNICATION SUITE */}
-      <section className="py-28 lg:py-36 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent pointer-events-none" />
+      {/* BRANDED FEATURE SHOWCASE */}
+      <section className="py-28 lg:py-36 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-[20%] left-[-5%] w-[500px] h-[500px] rounded-full bg-primary/[0.04] blur-[120px]" />
+          <div className="absolute bottom-[10%] right-[-5%] w-[400px] h-[400px] rounded-full bg-accent/[0.03] blur-[100px]" />
+        </div>
+
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
-            className="text-center max-w-3xl mx-auto mb-16"
+            className="text-center max-w-3xl mx-auto mb-20"
           >
             <motion.p variants={fadeUp} custom={0} className="text-sm font-semibold text-accent tracking-widest uppercase mb-4">
-              Communication Suite
+              The Comt@cts Suite
             </motion.p>
             <motion.h2 variants={fadeUp} custom={0.08} className="text-3xl md:text-5xl font-display font-bold mb-5 leading-tight">
-              Six powerful ways to connect.
+              Six branded tools. One platform.
             </motion.h2>
             <motion.p variants={fadeUp} custom={0.16} className="text-lg text-muted-foreground leading-relaxed">
-              From encrypted text to push-to-talk voice, video calls, in-app camera, and CB radio-style open channels.
+              Every feature carries the @ identity — instantly recognizable, purpose-built, and encrypted by default.
             </motion.p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <SuiteCard
-              icon={<MessageSquare size={24} />}
-              name={<>Comch<span className="text-accent">@</span>t</>}
-              label="Encrypted Messaging"
-              description="Real-time messaging with AES-256-GCM encryption at rest. Every message encrypted before storage, decrypted only when you read it."
-              color="primary"
-              delay={0.05}
-            />
-            <SuiteCard
-              icon={<Mic size={24} />}
-              name={<>Comch<span className="text-violet-400">@</span>tter</>}
-              label="Push-to-Talk"
-              description="Instant voice communication at the press of a button. Record voice notes or use real-time walkie-talkie-style communication."
-              color="violet"
-              delay={0.1}
-            />
-            <SuiteCard
-              icon={<Video size={24} />}
-              name={<>F<span className="text-accent">@</span>ce2F<span className="text-accent">@</span>ce</>}
-              label="1-on-1 Video"
-              description="Private video calls with any contact. High-quality, low-latency video powered by Agora — no third-party app needed."
-              color="accent"
-              delay={0.15}
-            />
-            <SuiteCard
-              icon={<Users size={24} />}
-              name={<>F<span className="text-primary">@</span>ceGroup</>}
-              label="Group Video"
-              description="Bring the whole team together with multi-participant video calls. Ideal for standups, meetings, and live brainstorming."
-              color="primary"
-              delay={0.2}
-            />
-            <SuiteCard
-              icon={<Camera size={24} />}
-              name={<>Comer<span className="text-amber-400">@</span></>}
-              label="In-App Camera"
-              description="Capture photos and video right inside Comt@cts. Snap a document, product, or whiteboard and share instantly."
-              color="amber"
-              delay={0.25}
-            />
-            <SuiteCard
-              icon={<Radio size={24} />}
-              name={<>2W<span className="text-emerald-400">@</span>y</>}
-              label="CB Radio Channels"
-              description="Open-channel voice communication. 10 preset channels, push-to-talk, speakerphone toggle — like classic CB radio for the modern workplace."
-              color="emerald"
-              delay={0.3}
-            />
+          {/* HERO BRAND CARDS */}
+          <div className="grid md:grid-cols-2 gap-6 mb-6">
+            {/* Comch@t — Large hero card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="relative p-10 rounded-3xl bg-card border border-primary/10 overflow-hidden group"
+            >
+              <div className="absolute top-0 right-0 w-80 h-80 bg-primary/[0.04] rounded-full blur-[80px] pointer-events-none" />
+              <div className="relative">
+                <div className="mb-6 w-14 h-14 rounded-2xl bg-primary/10 border border-primary/15 flex items-center justify-center">
+                  <MessageSquare size={28} className="text-primary" />
+                </div>
+                <h3 className="text-4xl md:text-5xl font-display font-extrabold text-white mb-2 tracking-tight">
+                  Comch<span className="text-accent">@</span>t
+                </h3>
+                <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-4">Encrypted Messaging</p>
+                <p className="text-muted-foreground leading-relaxed max-w-md">
+                  Real-time text messaging with AES-256-GCM encryption at rest. Every message is encrypted before storage and decrypted only when you read it. Includes read receipts and full chat history.
+                </p>
+                <div className="mt-6 flex items-center gap-3">
+                  <div className="px-3 py-1.5 rounded-lg bg-primary/8 border border-primary/10">
+                    <span className="text-xs font-bold text-primary">AES-256-GCM</span>
+                  </div>
+                  <div className="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
+                    <span className="text-xs font-medium text-white/60">Read Receipts</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Comch@tter — Large hero card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.08 }}
+              className="relative p-10 rounded-3xl bg-card border border-violet-500/10 overflow-hidden group"
+            >
+              <div className="absolute top-0 right-0 w-80 h-80 bg-violet-500/[0.04] rounded-full blur-[80px] pointer-events-none" />
+              <div className="relative">
+                <div className="mb-6 w-14 h-14 rounded-2xl bg-violet-500/10 border border-violet-500/15 flex items-center justify-center">
+                  <Mic size={28} className="text-violet-400" />
+                </div>
+                <h3 className="text-4xl md:text-5xl font-display font-extrabold text-white mb-2 tracking-tight">
+                  Comch<span className="text-violet-400">@</span>tter
+                </h3>
+                <p className="text-sm font-semibold text-violet-400 uppercase tracking-widest mb-4">Push-to-Talk</p>
+                <p className="text-muted-foreground leading-relaxed max-w-md">
+                  Instant voice communication at the press of a button. Record and send voice notes, or use real-time walkie-talkie-style communication with your team. Fast, hands-free, and built for busy professionals.
+                </p>
+                <div className="mt-6 flex items-center gap-3">
+                  <div className="px-3 py-1.5 rounded-lg bg-violet-500/8 border border-violet-500/10">
+                    <span className="text-xs font-bold text-violet-400">Voice Notes</span>
+                  </div>
+                  <div className="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
+                    <span className="text-xs font-medium text-white/60">Walkie-Talkie</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
+
+          {/* MIDDLE ROW — F@ce2F@ce + F@ceGroup */}
+          <div className="grid md:grid-cols-2 gap-6 mb-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="relative p-8 rounded-3xl bg-card border border-accent/10 overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-60 h-60 bg-accent/[0.04] rounded-full blur-[60px] pointer-events-none" />
+              <div className="relative">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-12 h-12 rounded-2xl bg-accent/10 border border-accent/15 flex items-center justify-center">
+                    <Video size={24} className="text-accent" />
+                  </div>
+                  <div>
+                    <h3 className="text-3xl font-display font-extrabold text-white tracking-tight">
+                      F<span className="text-accent">@</span>ce2F<span className="text-accent">@</span>ce
+                    </h3>
+                    <p className="text-xs font-semibold text-accent uppercase tracking-widest">1-on-1 Video Calls</p>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Jump into a private video call with any contact. High-quality, low-latency video powered by Agora — no third-party app needed. Perfect for quick check-ins and confidential conversations.
+                </p>
+                <div className="mt-5 flex items-center gap-3">
+                  <div className="px-3 py-1.5 rounded-lg bg-accent/8 border border-accent/10">
+                    <span className="text-xs font-bold text-accent">HD Video</span>
+                  </div>
+                  <div className="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
+                    <span className="text-xs font-medium text-white/60">Low Latency</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="relative p-8 rounded-3xl bg-card border border-primary/10 overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-60 h-60 bg-primary/[0.04] rounded-full blur-[60px] pointer-events-none" />
+              <div className="relative">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/15 flex items-center justify-center">
+                    <Users size={24} className="text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-3xl font-display font-extrabold text-white tracking-tight">
+                      F<span className="text-primary">@</span>ceGroup
+                    </h3>
+                    <p className="text-xs font-semibold text-primary uppercase tracking-widest">Group Video Calls</p>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Bring the whole team together with multi-participant group video calls. Crystal-clear video, seamless collaboration — ideal for standups, meetings, and live brainstorming sessions.
+                </p>
+                <div className="mt-5 flex items-center gap-3">
+                  <div className="px-3 py-1.5 rounded-lg bg-primary/8 border border-primary/10">
+                    <span className="text-xs font-bold text-primary">Multi-Party</span>
+                  </div>
+                  <div className="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
+                    <span className="text-xs font-medium text-white/60">Team Meetings</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* BOTTOM ROW — Comer@ + 2W@y */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="relative p-8 rounded-3xl bg-card border border-amber-500/10 overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-60 h-60 bg-amber-500/[0.04] rounded-full blur-[60px] pointer-events-none" />
+              <div className="relative">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/15 flex items-center justify-center">
+                    <Camera size={24} className="text-amber-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-3xl font-display font-extrabold text-white tracking-tight">
+                      Comer<span className="text-amber-400">@</span>
+                    </h3>
+                    <p className="text-xs font-semibold text-amber-400 uppercase tracking-widest">In-App Camera</p>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Capture photos and video right inside Comt@cts. Snap a document, a product, or a whiteboard and share it instantly in any conversation or channel. No switching apps.
+                </p>
+                <div className="mt-5 flex items-center gap-3">
+                  <div className="px-3 py-1.5 rounded-lg bg-amber-500/8 border border-amber-500/10">
+                    <span className="text-xs font-bold text-amber-400">Photo + Video</span>
+                  </div>
+                  <div className="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
+                    <span className="text-xs font-medium text-white/60">Instant Share</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.25 }}
+              className="relative p-8 rounded-3xl bg-card border border-emerald-500/10 overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-60 h-60 bg-emerald-500/[0.04] rounded-full blur-[60px] pointer-events-none" />
+              <div className="relative">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/15 flex items-center justify-center">
+                    <Radio size={24} className="text-emerald-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-3xl font-display font-extrabold text-white tracking-tight">
+                      2W<span className="text-emerald-400">@</span>y
+                    </h3>
+                    <p className="text-xs font-semibold text-emerald-400 uppercase tracking-widest">CB Radio Channels</p>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Open-channel, Citizens Band radio-style voice communication. 10 preset channels, push-to-talk transmission, and speakerphone toggle — classic CB radio reimagined for the modern workplace.
+                </p>
+                <div className="mt-5 flex items-center gap-3">
+                  <div className="px-3 py-1.5 rounded-lg bg-emerald-500/8 border border-emerald-500/10">
+                    <span className="text-xs font-bold text-emerald-400">10 Channels</span>
+                  </div>
+                  <div className="px-3 py-1.5 rounded-lg bg-emerald-500/8 border border-emerald-500/10">
+                    <span className="text-xs font-bold text-emerald-400">Speakerphone</span>
+                  </div>
+                  <div className="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
+                    <span className="text-xs font-medium text-white/60">PTT</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* THE @ IDENTITY */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mt-16 text-center"
+          >
+            <div className="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 px-6 sm:px-10 py-6 rounded-3xl bg-card border border-white/[0.06] max-w-md sm:max-w-none">
+              <div className="text-center">
+                <span className="text-5xl md:text-6xl font-display font-extrabold text-accent">@</span>
+              </div>
+              <div className="text-center sm:text-left">
+                <p className="text-lg font-display font-bold text-white">The @ Identity</p>
+                <p className="text-sm text-muted-foreground">Every feature carries the @ mark — the signature of Comt@cts</p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -642,49 +822,6 @@ function FeatureCard({
   );
 }
 
-function SuiteCard({
-  icon,
-  name,
-  label,
-  description,
-  color,
-  delay = 0
-}: {
-  icon: React.ReactNode;
-  name: React.ReactNode;
-  label: string;
-  description: string;
-  color: string;
-  delay?: number;
-}) {
-  const colorMap: Record<string, { bg: string; border: string; text: string; labelText: string }> = {
-    primary: { bg: "bg-primary/10", border: "border-primary/10", text: "text-primary", labelText: "text-primary" },
-    accent: { bg: "bg-accent/10", border: "border-accent/10", text: "text-accent", labelText: "text-accent" },
-    amber: { bg: "bg-amber-500/10", border: "border-amber-500/10", text: "text-amber-400", labelText: "text-amber-400" },
-    violet: { bg: "bg-violet-500/10", border: "border-violet-500/10", text: "text-violet-400", labelText: "text-violet-400" },
-    emerald: { bg: "bg-emerald-500/10", border: "border-emerald-500/10", text: "text-emerald-400", labelText: "text-emerald-400" },
-  };
-  const c = colorMap[color] || colorMap.primary;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.4, delay }}
-      className="group"
-    >
-      <div className={`h-full p-7 rounded-2xl bg-card border ${c.border} hover:border-white/[0.08] transition-all duration-300`}>
-        <div className={`mb-4 w-12 h-12 rounded-xl ${c.bg} flex items-center justify-center ${c.text}`}>
-          {icon}
-        </div>
-        <h4 className="text-xl font-display font-bold text-white mb-0.5">{name}</h4>
-        <p className={`text-xs font-semibold ${c.labelText} uppercase tracking-wider mb-3`}>{label}</p>
-        <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
-      </div>
-    </motion.div>
-  );
-}
 
 function SpotlightItem({
   icon,
