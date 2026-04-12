@@ -5,6 +5,7 @@ import conversationsRouter from "./conversations";
 import channelsRouter from "./channels";
 import meRouter from "./me";
 import referralsRouter from "./referrals";
+import companiesRouter from "./companies";
 
 const router: IRouter = Router();
 
@@ -14,5 +15,6 @@ router.use(conversationsRouter);
 router.use(channelsRouter);
 router.use(meRouter);
 router.use(referralsRouter);
+router.use(companiesRouter);
 
 export default router;

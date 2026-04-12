@@ -1,5 +1,5 @@
 import { db } from "@workspace/db";
-import { contactsTable, channelsTable, conversationsTable, messagesTable, referralsTable } from "@workspace/db/schema";
+import { contactsTable, channelsTable, conversationsTable, messagesTable, referralsTable, companiesTable } from "@workspace/db/schema";
 import { sql } from "drizzle-orm";
 
 export async function seedIfEmpty() {
@@ -8,18 +8,31 @@ export async function seedIfEmpty() {
 
   console.log("[seed] Empty database detected — seeding data...");
 
+  await db.insert(companiesTable).values([
+    { id: 1, name: "Comt@cts, Inc.", industry: "Technology", location: "Toronto, ON", website: "www.comtacts.ca", logoInitials: "CI" },
+    { id: 2, name: "Greenfield Foods", industry: "Food & Agriculture", location: "Vancouver, BC", website: "www.greenfieldfoods.ca", logoInitials: "GF" },
+    { id: 3, name: "Apex Logistics", industry: "Transportation & Logistics", location: "Calgary, AB", website: "www.apexlogistics.ca", logoInitials: "AL" },
+    { id: 4, name: "Northland Co-op", industry: "Retail Co-operative", location: "Edmonton, AB", website: "www.northlandcoop.ca", logoInitials: "NC" },
+    { id: 5, name: "Harlow Distribution", industry: "Distribution", location: "Mississauga, ON", website: "www.harlowdist.ca", logoInitials: "HD" },
+    { id: 6, name: "Maple Leaf Ventures", industry: "Investment", location: "Montreal, QC", website: "www.mapleleafventures.ca", logoInitials: "ML" },
+    { id: 7, name: "Pacific Freight Corp", industry: "Freight & Shipping", location: "Richmond, BC", website: "www.pacificfreight.ca", logoInitials: "PF" },
+    { id: 8, name: "Summit Agriculture", industry: "Agriculture", location: "Saskatoon, SK", website: "www.summitagri.ca", logoInitials: "SA" },
+  ]);
+
+  await db.execute(sql`SELECT setval('companies_id_seq', (SELECT MAX(id) FROM companies))`);
+
   await db.insert(contactsTable).values([
-    { id: 1, name: "Alex Johnson", handle: "@alexjohnson", email: "alex.johnson@comtacts.inc", phone: "+1 (555) 800-0100", company: "Comt@cts, Inc.", title: "Chief Executive Officer", mobilePhone: "+1 (555) 800-0199", personalEmail: "alex.j@personal.com", avatarInitials: "AJ", status: "online" },
-    { id: 2, name: "Maria Santos", handle: "@mariasantos", email: "maria.santos@comtacts.inc", phone: "+1 (555) 210-0301", company: "Comt@cts, Inc.", title: "Shipping Coordinator", avatarInitials: "MS", status: "online" },
-    { id: 3, name: "Derek Walsh", handle: "@derekwalsh", email: "derek.walsh@comtacts.inc", phone: "+1 (555) 210-0302", company: "Comt@cts, Inc.", title: "Shipping Supervisor", avatarInitials: "DW", status: "away" },
-    { id: 4, name: "Priya Patel", handle: "@priyapatel", email: "priya.patel@comtacts.inc", phone: "+1 (555) 210-0401", company: "Comt@cts, Inc.", title: "Receiving Manager", avatarInitials: "PP", status: "online" },
-    { id: 5, name: "James Okafor", handle: "@jamesokafor", email: "james.okafor@comtacts.inc", phone: "+1 (555) 210-0402", company: "Comt@cts, Inc.", title: "Receiving Associate", avatarInitials: "JO", status: "offline" },
-    { id: 6, name: "Rachel Kim", handle: "@rachelkim", email: "rachel.kim@comtacts.inc", phone: "+1 (555) 800-0210", company: "Comt@cts, Inc.", title: "Controller", avatarInitials: "RK", status: "online" },
-    { id: 7, name: "Samuel Osei", handle: "@samuosei", email: "samuel.osei@comtacts.inc", phone: "+1 (555) 800-0320", company: "Comt@cts, Inc.", title: "Grower", avatarInitials: "SO", status: "online" },
-    { id: 8, name: "Claire Donovan", handle: "@clairedonovan", email: "claire.donovan@comtacts.inc", phone: "+1 (555) 800-0410", company: "Comt@cts, Inc.", title: "Health & Safety Officer", avatarInitials: "CD", status: "online" },
-    { id: 9, name: "Marcus Webb", handle: "@marcuswebb", email: "marcus.webb@comtacts.inc", phone: "+1 (555) 800-0510", company: "Comt@cts, Inc.", title: "HR Manager", avatarInitials: "MW", status: "away" },
-    { id: 10, name: "Nina Castillo", handle: "@ninacastillo", email: "nina.castillo@comtacts.inc", phone: "+1 (555) 800-0610", company: "Comt@cts, Inc.", title: "Logistics Coordinator", avatarInitials: "NC", status: "online" },
-    { id: 11, name: "Troy Hensley", handle: "@troyhensley", email: "troy.hensley@comtacts.inc", phone: "+1 (555) 800-0620", company: "Comt@cts, Inc.", title: "Fleet Supervisor", avatarInitials: "TH", status: "away" },
+    { id: 1, name: "Alex Johnson", handle: "@alexjohnson", email: "alex.johnson@comtacts.inc", phone: "+1 (555) 800-0100", company: "Comt@cts, Inc.", companyId: 1, title: "Chief Executive Officer", mobilePhone: "+1 (555) 800-0199", personalEmail: "alex.j@personal.com", avatarInitials: "AJ", status: "online", linkedIn: "alexjohnson", twitter: "alexjceo", instagram: "alexjohnson.ceo", facebook: "alex.johnson.comtacts" },
+    { id: 2, name: "Maria Santos", handle: "@mariasantos", email: "maria.santos@comtacts.inc", phone: "+1 (555) 210-0301", company: "Comt@cts, Inc.", companyId: 1, title: "Shipping Coordinator", avatarInitials: "MS", status: "online", linkedIn: "maria-santos-logistics", twitter: "mariasantos_ship", instagram: "mariasantos" },
+    { id: 3, name: "Derek Walsh", handle: "@derekwalsh", email: "derek.walsh@comtacts.inc", phone: "+1 (555) 210-0302", company: "Comt@cts, Inc.", companyId: 1, title: "Shipping Supervisor", avatarInitials: "DW", status: "away", linkedIn: "derek-walsh", twitter: "derekwalsh_ops" },
+    { id: 4, name: "Priya Patel", handle: "@priyapatel", email: "priya.patel@comtacts.inc", phone: "+1 (555) 210-0401", company: "Comt@cts, Inc.", companyId: 1, title: "Receiving Manager", avatarInitials: "PP", status: "online", linkedIn: "priya-patel-ops", instagram: "priya.patel" },
+    { id: 5, name: "James Okafor", handle: "@jamesokafor", email: "james.okafor@comtacts.inc", phone: "+1 (555) 210-0402", company: "Comt@cts, Inc.", companyId: 1, title: "Receiving Associate", avatarInitials: "JO", status: "offline", linkedIn: "james-okafor", facebook: "james.okafor" },
+    { id: 6, name: "Rachel Kim", handle: "@rachelkim", email: "rachel.kim@comtacts.inc", phone: "+1 (555) 800-0210", company: "Comt@cts, Inc.", companyId: 1, title: "Controller", avatarInitials: "RK", status: "online", linkedIn: "rachel-kim-finance", twitter: "rachelkim_ctrl", instagram: "rachelkim.finance" },
+    { id: 7, name: "Samuel Osei", handle: "@samuosei", email: "samuel.osei@comtacts.inc", phone: "+1 (555) 800-0320", company: "Comt@cts, Inc.", companyId: 1, title: "Grower", avatarInitials: "SO", status: "online", linkedIn: "samuel-osei-agri", instagram: "samuel.osei.grow" },
+    { id: 8, name: "Claire Donovan", handle: "@clairedonovan", email: "claire.donovan@comtacts.inc", phone: "+1 (555) 800-0410", company: "Comt@cts, Inc.", companyId: 1, title: "Health & Safety Officer", avatarInitials: "CD", status: "online", linkedIn: "claire-donovan-safety", twitter: "clairedonovan_hs" },
+    { id: 9, name: "Marcus Webb", handle: "@marcuswebb", email: "marcus.webb@comtacts.inc", phone: "+1 (555) 800-0510", company: "Comt@cts, Inc.", companyId: 1, title: "HR Manager", avatarInitials: "MW", status: "away" },
+    { id: 10, name: "Nina Castillo", handle: "@ninacastillo", email: "nina.castillo@comtacts.inc", phone: "+1 (555) 800-0610", company: "Comt@cts, Inc.", companyId: 1, title: "Logistics Coordinator", avatarInitials: "NC", status: "online" },
+    { id: 11, name: "Troy Hensley", handle: "@troyhensley", email: "troy.hensley@comtacts.inc", phone: "+1 (555) 800-0620", company: "Comt@cts, Inc.", companyId: 1, title: "Fleet Supervisor", avatarInitials: "TH", status: "away" },
   ]);
 
   await db.execute(sql`SELECT setval('contacts_id_seq', (SELECT MAX(id) FROM contacts))`);

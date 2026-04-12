@@ -6,6 +6,16 @@ export const statusEnum = pgEnum("status", ["online", "away", "offline"]);
 export const contactTypeEnum = pgEnum("contact_type", ["vendor", "merchant"]);
 export const referralStatusEnum = pgEnum("referral_status", ["pending", "completed", "rewarded"]);
 
+export const companiesTable = pgTable("companies", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+  industry: text("industry"),
+  location: text("location"),
+  website: text("website"),
+  logoInitials: text("logo_initials").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
 export const usersTable = pgTable("users", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
@@ -28,6 +38,7 @@ export const contactsTable = pgTable("contacts", {
   email: text("email").notNull(),
   phone: text("phone"),
   company: text("company"),
+  companyId: integer("company_id").references(() => companiesTable.id),
   title: text("title"),
   mobilePhone: text("mobile_phone"),
   personalEmail: text("personal_email"),
@@ -80,9 +91,12 @@ export const referralsTable = pgTable("referrals", {
 export const insertContactSchema = createInsertSchema(contactsTable).omit({ id: true, createdAt: true });
 export const insertChannelSchema = createInsertSchema(channelsTable).omit({ id: true, createdAt: true });
 export const insertMessageSchema = createInsertSchema(messagesTable).omit({ id: true, createdAt: true });
+export const insertCompanySchema = createInsertSchema(companiesTable).omit({ id: true, createdAt: true });
 
 export type Contact = typeof contactsTable.$inferSelect;
 export type InsertContact = z.infer<typeof insertContactSchema>;
 export type Channel = typeof channelsTable.$inferSelect;
 export type Message = typeof messagesTable.$inferSelect;
 export type Referral = typeof referralsTable.$inferSelect;
+export type Company = typeof companiesTable.$inferSelect;
+export type InsertCompany = z.infer<typeof insertCompanySchema>;

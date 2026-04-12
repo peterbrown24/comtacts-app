@@ -15,6 +15,7 @@ router.get("/contacts", async (req, res) => {
     email: c.email,
     phone: c.phone ?? undefined,
     company: c.company ?? undefined,
+    companyId: c.companyId ?? undefined,
     title: c.title ?? undefined,
     mobilePhone: c.mobilePhone ?? undefined,
     personalEmail: c.personalEmail ?? undefined,
