@@ -54,6 +54,7 @@ export const messagesTable = pgTable("messages", {
   isMine: text("is_mine").notNull().default("false"),
   conversationId: serial("conversation_id"),
   channelId: serial("channel_id"),
+  readAt: timestamp("read_at"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 

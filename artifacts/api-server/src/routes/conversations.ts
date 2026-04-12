@@ -1,7 +1,7 @@
 import { Router, type IRouter } from "express";
 import { db } from "@workspace/db";
 import { contactsTable, conversationsTable, messagesTable } from "@workspace/db/schema";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and, desc, isNull, inArray } from "drizzle-orm";
 
 const router: IRouter = Router();
 
@@ -80,6 +80,7 @@ router.get("/conversations/:conversationId/messages", async (req, res) => {
     senderName: m.senderName,
     senderInitials: m.senderInitials,
     isMine: m.isMine === "true",
+    readAt: m.readAt?.toISOString() ?? null,
     createdAt: m.createdAt.toISOString(),
   })));
 });
@@ -105,8 +106,24 @@ router.post("/conversations/:conversationId/messages", async (req, res) => {
     senderName: msg.senderName,
     senderInitials: msg.senderInitials,
     isMine: true,
+    readAt: null,
     createdAt: msg.createdAt.toISOString(),
   });
+});
+
+router.patch("/conversations/:conversationId/messages/read", async (req, res) => {
+  const conversationId = parseInt(req.params.conversationId);
+  const now = new Date();
+  await db.update(messagesTable)
+    .set({ readAt: now })
+    .where(
+      and(
+        eq(messagesTable.conversationId, conversationId),
+        eq(messagesTable.isMine, "true"),
+        isNull(messagesTable.readAt),
+      )
+    );
+  res.json({ success: true, readAt: now.toISOString() });
 });
 
 export default router;

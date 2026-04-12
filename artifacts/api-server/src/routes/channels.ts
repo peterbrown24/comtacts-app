@@ -1,7 +1,7 @@
 import { Router, type IRouter } from "express";
 import { db } from "@workspace/db";
 import { channelsTable, messagesTable } from "@workspace/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, and, desc, isNull } from "drizzle-orm";
 
 const router: IRouter = Router();
 
@@ -59,6 +59,7 @@ router.get("/channels/:channelId/messages", async (req, res) => {
     senderName: m.senderName,
     senderInitials: m.senderInitials,
     isMine: m.isMine === "true",
+    readAt: m.readAt?.toISOString() ?? null,
     createdAt: m.createdAt.toISOString(),
   })));
 });
@@ -84,8 +85,24 @@ router.post("/channels/:channelId/messages", async (req, res) => {
     senderName: msg.senderName,
     senderInitials: msg.senderInitials,
     isMine: true,
+    readAt: null,
     createdAt: msg.createdAt.toISOString(),
   });
+});
+
+router.patch("/channels/:channelId/messages/read", async (req, res) => {
+  const channelId = parseInt(req.params.channelId);
+  const now = new Date();
+  await db.update(messagesTable)
+    .set({ readAt: now })
+    .where(
+      and(
+        eq(messagesTable.channelId, channelId),
+        eq(messagesTable.isMine, "true"),
+        isNull(messagesTable.readAt),
+      )
+    );
+  res.json({ success: true, readAt: now.toISOString() });
 });
 
 export default router;
