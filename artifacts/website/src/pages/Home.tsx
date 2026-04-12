@@ -18,7 +18,8 @@ import {
   Share2,
   Gift,
   Shield,
-  Radio
+  Radio,
+  Volume2
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 
@@ -264,10 +265,109 @@ export default function Home() {
               icon={<Radio size={32} />}
               title={<>2W<span className="text-accent">@</span>y</>}
               subtitle="CB Radio Channels"
-              description="Open-channel, Citizens Band radio-style voice communication. Tune in to a channel and anyone listening can hear and talk — just like classic CB radio. Perfect for warehouse floors, field teams, and live coordination."
+              description="Open-channel, Citizens Band radio-style voice communication. Tune in to any of 10 preset channels and everyone listening can hear and talk — just like classic CB radio. Includes a speakerphone toggle for hands-free listening and push-to-talk transmission. Built for warehouse floors, field teams, and live coordination."
               color="emerald"
               delay={0.5}
             />
+          </div>
+        </div>
+      </section>
+
+      {/* VOICE & RADIO SPOTLIGHT */}
+      <section className="py-24 lg:py-32 relative border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-emerald-400 font-semibold tracking-wider uppercase mb-3">Voice & Radio</h2>
+              <h3 className="text-3xl md:text-5xl font-display font-bold mb-6">
+                Talk like it's <span className="text-emerald-400">CB radio.</span><br />
+                No app switching. No dialing.
+              </h3>
+              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+                2W@y brings Citizens Band radio into the modern workplace. Tune in to any of 10 open channels, 
+                hold the button to talk, and everyone on the channel hears you instantly. Toggle speakerphone 
+                for hands-free operation on the warehouse floor, in the field, or at your desk.
+              </p>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="mt-0.5 w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
+                    <Radio size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-display font-bold text-white mb-1">10 Open Channels</h4>
+                    <p className="text-sm text-muted-foreground">General, Dispatch, Logistics, Sales, Warehouse, Field Ops, Support, Management, Emergency, and Open</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="mt-0.5 w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
+                    <Volume2 size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-display font-bold text-white mb-1">Speakerphone Toggle</h4>
+                    <p className="text-sm text-muted-foreground">Switch between speaker and earpiece with one tap — hands-free or private listening</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="mt-0.5 w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 flex-shrink-0">
+                    <Mic size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-display font-bold text-white mb-1">Comch@tter Voice Notes</h4>
+                    <p className="text-sm text-muted-foreground">Record and send voice messages or use push-to-talk for real-time walkie-talkie-style communication</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="relative flex items-center justify-center"
+            >
+              <div className="w-72 md:w-80 rounded-3xl bg-card border border-emerald-500/20 p-8 space-y-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-end gap-0.5">
+                      <div className="w-1 h-2 rounded-sm bg-emerald-400"></div>
+                      <div className="w-1 h-3 rounded-sm bg-emerald-400"></div>
+                      <div className="w-1 h-4 rounded-sm bg-emerald-400"></div>
+                    </div>
+                    <span className="text-emerald-400 text-xs font-bold tracking-widest">2W@Y RADIO</span>
+                  </div>
+                  <div className="w-2 h-2 rounded-full bg-emerald-400"></div>
+                </div>
+                <div>
+                  <div className="text-3xl font-display font-bold text-white">CH 01</div>
+                  <div className="text-muted-foreground text-sm">General</div>
+                </div>
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <span>3 listeners</span>
+                  <span className="text-emerald-400 font-bold">RX</span>
+                </div>
+                <motion.div
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                  className="w-28 h-28 mx-auto rounded-full border-2 border-emerald-400 bg-card flex flex-col items-center justify-center gap-1"
+                >
+                  <Mic size={32} className="text-emerald-400" />
+                  <span className="text-[10px] font-bold text-emerald-400 tracking-widest">PUSH TO TALK</span>
+                </motion.div>
+                <div className="flex items-center justify-center gap-3">
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                    <Volume2 size={14} className="text-emerald-400" />
+                    <span className="text-xs font-semibold text-emerald-400">Speaker On</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
