@@ -4,6 +4,8 @@
 
 pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
 
+**Published & Live:** Website deployed at **comtacts.ca** (custom domain via GoDaddy DNS).
+
 ## Stack
 
 - **Monorepo tool**: pnpm workspaces
