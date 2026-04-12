@@ -1,0 +1,56 @@
+{
+  "cli": {
+    "version": ">= 12.0.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "preview-enterprise": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "COMTACTS_ENTERPRISE": "true",
+        "COMTACTS_DEVICE_BUILD": "true"
+      }
+    },
+    "production": {
+      "ios": {
+        "credentialsSource": "local"
+      }
+    },
+    "production-android": {
+      "android": {
+        "buildType": "app-bundle"
+      }
+    },
+    "device-firmware": {
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "COMTACTS_ENTERPRISE": "true",
+        "COMTACTS_DEVICE_BUILD": "true",
+        "COMTACTS_SYSTEM_APP": "true"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "petebrown24@example.com",
+        "ascAppId": "6761197147",
+        "appleTeamId": "SM393K66CQ"
+      }
+    }
+  }
+}

@@ -29,3 +29,9 @@ id = "3b3xv0EUVOmzf11DNkPHN"
 uri = "file://.local/privacy-policy.md"
 type = "text"
 title = "Privacy Policy"
+
+[[outputs]]
+id = "38Buf7p1uCof-1fM8ws9_"
+uri = "file://artifacts/mobile/android-device-spec.md"
+type = "text"
+title = "Comt@cts Device Manufacturing Specification"
