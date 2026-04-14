@@ -28,9 +28,6 @@
       "autoIncrement": true,
       "ios": {
         "credentialsSource": "local"
-      },
-      "env": {
-        "CI": "0"
       }
     },
     "production-android": {
