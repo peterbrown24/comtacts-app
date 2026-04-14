@@ -22,7 +22,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-        working-directory: artifacts/mobile
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
