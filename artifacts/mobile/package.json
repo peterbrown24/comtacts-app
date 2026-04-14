@@ -8,7 +8,7 @@
     "build": "node scripts/build.js",
     "serve": "node server/serve.js",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "eas-build-pre-install": "cd ../.. && node -e \"const fs=require('fs');let lf=fs.readFileSync('pnpm-lock.yaml','utf8');lf=lf.replace(/\\noverrides:\\n(  [^\\n]+\\n)+/,'\\n');fs.writeFileSync('pnpm-lock.yaml',lf);console.log('EAS: stripped lockfile overrides')\""
+    "eas-build-pre-install": "cd ../.. && echo 'frozen-lockfile=false' >> .npmrc && node -e \"const fs=require('fs');let lf=fs.readFileSync('pnpm-lock.yaml','utf8');lf=lf.replace(/\\noverrides:\\n(  [^\\n]+\\n)+/,'\\n');fs.writeFileSync('pnpm-lock.yaml',lf);console.log('EAS: stripped overrides, disabled frozen-lockfile')\""
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
