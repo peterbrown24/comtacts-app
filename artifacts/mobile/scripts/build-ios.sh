@@ -20,7 +20,9 @@ console.log('Stripped overrides from lockfile');
 const has = fs.readFileSync('pnpm-lock.yaml','utf8').includes('overrides:');
 console.log('Overrides remaining:', has);
 "
-echo "=== Lockfile header ==="
+git add pnpm-lock.yaml
+git commit -m "Strip overrides for EAS build" --allow-empty || true
+echo "=== Lockfile header after fix ==="
 head -10 pnpm-lock.yaml
 cd artifacts/mobile
 
