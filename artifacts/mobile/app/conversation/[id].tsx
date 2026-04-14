@@ -14,7 +14,7 @@ import {
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getConversationMessages, sendConversationMessage, getConversations } from "@workspace/api-client-react";
+import { getConversationMessages, sendConversationMessage, getConversations } from "@/lib/apiWithFallback";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/colors";
 import { EncryptionBanner, EncryptionBadge } from "@/components/EncryptionBadge";

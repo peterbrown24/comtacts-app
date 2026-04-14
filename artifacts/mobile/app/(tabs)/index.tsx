@@ -16,7 +16,7 @@ import {
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getContacts, createContact, deleteContact, createConversation } from "@workspace/api-client-react";
+import { getContacts, createContact, deleteContact, createConversation } from "@/lib/apiWithFallback";
 import type { Contact } from "@workspace/api-client-react";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/colors";
@@ -177,6 +177,9 @@ export default function ContactsScreen() {
       qc.invalidateQueries({ queryKey: ["contacts"] });
       setShowAdd(false);
       setName(""); setEmail(""); setPhone(""); setCompany(""); setTitle(""); setContactType(undefined);
+    },
+    onError: () => {
+      Alert.alert("Error", "Failed to add contact. Please try again.");
     },
   });
 

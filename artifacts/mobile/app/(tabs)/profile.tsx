@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
-import { getMe } from "@workspace/api-client-react";
+import { getMe } from "@/lib/apiWithFallback";
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/colors";

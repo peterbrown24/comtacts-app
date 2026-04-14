@@ -14,7 +14,7 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getChannels, createChannel } from "@workspace/api-client-react";
+import { getChannels, createChannel } from "@/lib/apiWithFallback";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/colors";
 

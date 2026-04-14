@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
-import { getConversations } from "@workspace/api-client-react";
+import { getConversations } from "@/lib/apiWithFallback";
 import { useRouter } from "expo-router";
 import { Ionicons, Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/colors";
