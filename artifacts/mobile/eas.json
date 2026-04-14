@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 12.0.0"
+    "version": ">= 12.0.0",
+    "appVersionSource": "local"
   },
   "build": {
     "development": {
@@ -27,6 +28,9 @@
       "autoIncrement": true,
       "ios": {
         "credentialsSource": "local"
+      },
+      "env": {
+        "CI": "0"
       }
     },
     "production-android": {
