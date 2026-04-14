@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
+    "eas-build-pre-install": "node -e \"const fs=require('fs');let lf=fs.readFileSync('pnpm-lock.yaml','utf8');lf=lf.replace(/\\noverrides:\\n(  [^\\n]+\\n)+/,'\\n');fs.writeFileSync('pnpm-lock.yaml',lf);console.log('EAS pre-install: stripped lockfile overrides')\"",
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
     "typecheck:libs": "tsc --build",
     "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
